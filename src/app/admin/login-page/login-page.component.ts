@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { User } from "../../shared/interfaces";
 import { AuthService } from "../shared/services/auth.service";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -17,13 +18,15 @@ export class LoginPageComponent implements OnInit {
   public title: string = '';
   public message: string = '';
 
-
   constructor(
     private auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translate: TranslateService
   ) {
+    translate.setDefaultLang('en');
   }
+
 
   public ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {

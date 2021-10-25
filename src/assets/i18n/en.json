@@ -1,0 +1,20 @@
+{
+  "titles": {
+    "name-app": "Todo List",
+    "copy": "Copyright",
+    "formIn": "Login form"
+  },
+  "buttons": {
+    "sign-in": "Sign In",
+    "sign-up": "Sign Up",
+    "language": "English"
+  },
+  "errors": {
+    "email": "Enter the email",
+    "password": "Password is not correct"
+  },
+  "placeholders": {
+    "email": "Email",
+    "password": "Password"
+  }
+}
