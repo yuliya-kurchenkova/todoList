@@ -1,1 +1,136 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}
+
+ul {
+  list-style: none;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  background: #4BA34C;
+  color: #535353;
+  text-align: center;
+}
+ul {
+    display: flex;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav-item a {
+  margin-right: 2rem;
+  font-size: 19px;
+  color: #535353;
+}
+
+li.active a {
+  font-weight: bold;
+  color: #333333;
+  cursor: default;
+}
+
+h1 a {
+  font-size: 3rem;
+  color: #535353;
+}
+
+.btn {
+  display: inline-block;
+  background: #FDBE4B;
+  color: #eae6e6;
+  padding: 0.4rem 1.3rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: .5rem;
+  margin-right: 0.5rem;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+
+  &:disabled {
+    background: #ccc;
+    color: #000;
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.modal {
+    position: fixed;
+    bottom: 44px;
+    top: 74px;
+    width: 100%;
+    padding: 20px 0 225px;
+    background-color: rgba(0, 0, 0, .2);
+    backdrop-filter: blur(10px);
+}
+
+.form {
+  width: 500px;
+  margin: 0 auto;
+  text-align: start;
+  background: rgb(236, 226, 226);
+  box-shadow: 6px 5px 8px 8px;
+
+  &.invalid {
+    color: red;
+    input {
+      border-color: red;
+    }
+  }
+
+  .validation {
+    color: red;
+  }
+}
+
+.input {
+  outline: none;
+  padding: 12px 20px;
+  margin: 10px 0 20px 20px;
+  box-sizing: border-box;
+  border: 1px solid #cbc9c9;
+  width: 88%;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-around {
+  display: flex;
+  justify-content: space-around;
+}
+
+.alert {
+  padding: 0.7rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: #f4f4f4;
+  color: #333;
+}

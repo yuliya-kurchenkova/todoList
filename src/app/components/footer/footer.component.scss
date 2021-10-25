@@ -1,0 +1,15 @@
+div {
+  position:fixed;
+  left: 0;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  background: #4BA34C;
+  padding: 15px 20px;
+
+  div, p {
+    color: white;
+    font-size: 12px;
+  }
+}
+

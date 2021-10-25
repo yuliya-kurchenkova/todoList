@@ -1,0 +1,34 @@
+<div class="modal box">
+    <form class="form" [formGroup]="profileForm" (ngSubmit)="submit()">
+      <h2>Login form</h2>
+
+      <div class="alert" *ngIf="message">
+        {{message}}
+      </div>
+      <div [ngClass]="{invalid: profileForm.controls.email.touched && profileForm.controls.password.invalid}">
+        <input type="email" class="input" placeholder="Email" formControlName="email"/>
+        <div class="validation" *ngIf="email && email.invalid && email.touched">
+          <small>Enter the email</small>
+        </div>
+      </div>
+      <div [ngClass]="{invalid: profileForm.get('password')?.touched && profileForm.get('password')?.invalid}">
+        <input type="password" class="input" placeholder="Password" formControlName="password"/>
+        <div class="validation" *ngIf="password && password.invalid && password.touched">
+          <small>Password is not correct</small>
+        </div>
+      </div>
+      <div class="box-around">
+        <button
+           class="btn"
+           type="submit"
+           [disabled]="profileForm.invalid || submitted"
+        >Login</button>
+        <button class="btn" (click)="add()">Register</button>
+      </div>
+    </form>
+</div>
+
+<router-outlet></router-outlet>
+
+
+
