@@ -1,6 +1,6 @@
 <nav class="nav">
   <h1>
-     <a routerLink="/">Todo List</a>
+     <a routerLink="/">{{"titles.name-app" | translate}}</a>
   </h1>
   <ul>
     <li
@@ -11,10 +11,13 @@
       <a routerLink="/">Home</a>
     </li>
     <li>
-      <button class="btn" (click)="logout($event)">Login</button>
+      <button class="btn" (click)="logout($event)">{{"buttons.sign-in" | translate}}</button>
+    </li>
+    <li>
+      <button translate (click)="changeLanguage()">buttons.language</button>
     </li>
   </ul>
 </nav>
 
-<router-outlet></router-outlet>
+
 
