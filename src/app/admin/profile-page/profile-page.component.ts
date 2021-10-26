@@ -23,7 +23,7 @@ export class ProfilePageComponent implements OnInit {
 
   // logInJ() {
   //   this.auth.profile()
-  //   .subscribe((data:any) => this.user= data.email);
+  //     .subscribe((data:any) => this.user= data.email);
   // }
 
 }

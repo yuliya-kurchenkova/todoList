@@ -16,7 +16,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore/';
 
 
 @NgModule({
@@ -35,6 +36,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     AdminModule,
     SharedModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

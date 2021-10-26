@@ -3,6 +3,10 @@ export interface User {
   password: string
   returnSecureToken?: boolean
   idToken?: string
+  userName?: string
+  uid?: string
+  firstname?: string
+  lastname?: string
 }
 
 export interface FbAuthResponse {

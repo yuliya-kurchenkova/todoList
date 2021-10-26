@@ -1,0 +1,41 @@
+<div class="modal box">
+  <form class="form" [formGroup]="registrationForm" (ngSubmit)="submit()">
+    <h2>{{"titles.formUp" | translate}}</h2>
+
+    <div class="alert" *ngIf="message">
+      {{message}}
+    </div>
+    <div>
+      <input type="text" name="name" class="input" placeholder="{{'placeholders.firstName' | translate}}" formControlName="userName"/>
+      <div class="validation"  *ngIf="registrationForm.controls['userName'].invalid && registrationForm.controls['userName'].touched">
+        <small>{{'errors.firstName' | translate}}</small>
+      </div>
+    </div>
+    <div>
+      <input type="text" name="name" class="input" placeholder="{{'placeholders.lastName' | translate}}" formControlName="userName"/>
+      <div class="validation" *ngIf="registrationForm.controls['userName'].invalid && registrationForm.controls['userName'].touched">
+        <small>{{'errors.lastName' | translate}}</small>
+      </div>
+    </div>
+    <div [ngClass]="{invalid: registrationForm.controls.email.touched && registrationForm.controls.password.invalid}">
+      <input type="email" class="input" placeholder="{{'placeholders.email' | translate}}" formControlName="email"/>
+      <div class="validation" *ngIf="email && email.invalid && email.touched">
+        <small>{{'errors.email' | translate}}</small>
+      </div>
+    </div>
+    <div [ngClass]="{invalid: registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid}">
+      <input type="password" class="input" placeholder="{{'placeholders.password' | translate}}" formControlName="password"/>
+      <div class="validation" *ngIf="password && password.invalid && password.touched">
+        <small>{{'errors.password' | translate}}</small>
+      </div>
+    </div>
+    <div class="box-around">
+      <button
+        class="btn"
+        type="submit"
+        [disabled]="registrationForm.invalid || submitted"
+      >{{'buttons.sign-up' | translate}}</button>
+    </div>
+  </form>
+</div>
+<router-outlet></router-outlet>

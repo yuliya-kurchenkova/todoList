@@ -77,6 +77,7 @@ export class LoginPageComponent implements OnInit {
   };
 
   add() {
+    this.router.navigate(['/admin', 'signup']);
     this.title = 'gofkh';
     localStorage.setItem('ggg', this.title);
   };
