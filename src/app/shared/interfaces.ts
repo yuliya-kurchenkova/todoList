@@ -5,8 +5,8 @@ export interface User {
   idToken?: string
   userName?: string
   uid?: string
-  firstname?: string
-  lastname?: string
+  firstName?: string
+  lastName?: string
 }
 
 export interface FbAuthResponse {

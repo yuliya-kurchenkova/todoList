@@ -9,7 +9,8 @@ import { User } from "../../../shared/interfaces";
 export class FirebaseService {
 
   public newUser: any
-
+  public curentUserId: any
+  public displayName: any
 
   constructor(
     private db: AngularFirestore,
@@ -21,25 +22,37 @@ export class FirebaseService {
   public signUp(user: User): Promise<any>{
     return this.fireAuth.createUserWithEmailAndPassword(user.email, user.password)
       .then((result) => {
-        this.newUser = user;
-        // result.user.updateProfile( {
-        //   displayName: user.firstname + ' ' + user.lastname
-        this.setUserData(this.newUser)
-        });
+        console.log(result)
+        this.newUser = result.user;
+        this.curentUserId = this.newUser.uid;
+        console.log(this.newUser.uid)
+        this.displayName = this.newUser.firstName + ' ' + this.newUser.lastName
+        console.log(this.displayName)
+        this.newUser.updateProfile({displayName: this.newUser.firstName + ' ' + this.newUser.lastName})
+        this.db.doc(`/users/`)
+        .set({
+          email: this.newUser.email,
+          displayName: this.newUser.firstName + this.newUser.lastName,    
+        })
+      })
+    } 
+      // setUserData(this.newUser).then(r => {
+      //   console.log(r)
+      // })
       // });
     //
     // this.setUserData()
     //   .then(() => {
     //     this.router.navigate(['/home']);
     //   })
-  }
+  
 
-  public setUserData(user: User) {
-   return this.db.doc(`users/${user.uid}`)
-     .set({
-     email: this.newUser.email,
-     firstname: this.newUser.firstName,
-     lastname: this.newUser.lastName,
-   });
-  }
+  // public setUserData(user: User) {
+  //  return this.db.doc(`users/${user.uid}`)
+  //    .set({
+  //    email: this.newUser.email,
+  //    firstname: this.newUser.firstName,
+  //    lastname: this.newUser.lastName,
+  //  });
+  // }
 }

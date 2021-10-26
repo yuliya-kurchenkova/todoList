@@ -41,10 +41,10 @@ export class AuthService {
    )
   }
 
-  public profile(): Observable<any> {
-    this.adminUser = this.http.get(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`)
-    return this.adminUser
-  }
+  // public profile(): Observable<any> {
+  //   this.adminUser = this.http.get(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`)
+  //   return this.adminUser
+  // }
 
   public logout() {
     this.setToken(null)

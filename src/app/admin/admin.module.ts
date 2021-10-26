@@ -29,7 +29,7 @@ import { AuthGuard } from "./shared/services/auth.guard";
           { path: '', redirectTo: '/admin/login', pathMatch: 'full'},
           { path: 'login', component: LoginPageComponent },
           { path: 'signup', component: SignupPageComponent },
-          { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard] }
+          { path: 'profile', component: ProfilePageComponent}
         ]}
     ]),
     FormsModule,

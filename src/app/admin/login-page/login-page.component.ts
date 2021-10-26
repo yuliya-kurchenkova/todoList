@@ -73,7 +73,7 @@ export class LoginPageComponent implements OnInit {
       this.submitted = false;
     });
 
-    this.auth.profile().subscribe((data:any) => data.email);
+    // this.auth.profile().subscribe((data:any) => data.email);
   };
 
   add() {

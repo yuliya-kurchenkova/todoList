@@ -39,7 +39,10 @@ export class SignupPageComponent implements OnInit {
         Validators.required,
         Validators.minLength(6)
       ]),
-      userName: new FormControl(null, [
+      firstName: new FormControl(null, [
+        Validators.required,
+      ]),
+      lastName: new FormControl(null, [
         Validators.required,
       ])
     });
@@ -53,11 +56,8 @@ export class SignupPageComponent implements OnInit {
     return this.registrationForm.get('password');
   }
 
-  public get name() {
-    return this.registrationForm.get('name');
-  }
-
   public submit(): void {
+    console.log(this.registrationForm.invalid)
     if(this.registrationForm.invalid) {
       return
     }
@@ -72,8 +72,8 @@ export class SignupPageComponent implements OnInit {
 
     this.fireAuth.signUp(this.registrationForm.value)
       .then((result) => {
-        if(result === null)
-          this.router.navigate(['/profile'])
+        console.log( "result", result)
       })
+      this.router.navigate(['/admin', 'profile']);
   }
 }
