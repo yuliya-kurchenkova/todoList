@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
@@ -12,7 +12,7 @@ export class FooterComponent implements OnInit {
       translate.setDefaultLang('en');
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
   }
 
 }

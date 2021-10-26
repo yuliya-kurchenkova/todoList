@@ -10,7 +10,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 import { AuthService } from "./shared/services/auth.service";
 import { AuthGuard } from "./shared/services/auth.guard";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from "@ngx-translate/core";
 
 
 @NgModule({

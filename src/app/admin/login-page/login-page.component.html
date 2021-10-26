@@ -8,13 +8,13 @@
       <div [ngClass]="{invalid: profileForm.controls.email.touched && profileForm.controls.password.invalid}">
         <input type="email" class="input" placeholder="{{'placeholders.email' | translate}}" formControlName="email"/>
         <div class="validation" *ngIf="email && email.invalid && email.touched">
-          <small>{{"errors.email" | translate}}</small>
+          <small>{{'errors.email' | translate}}</small>
         </div>
       </div>
       <div [ngClass]="{invalid: profileForm.get('password')?.touched && profileForm.get('password')?.invalid}">
         <input type="password" class="input" placeholder="{{'placeholders.password' | translate}}" formControlName="password"/>
         <div class="validation" *ngIf="password && password.invalid && password.touched">
-          <small>{{"errors.password" | translate}}</small>
+          <small>{{'errors.password' | translate}}</small>
         </div>
       </div>
       <div class="box-around">
@@ -22,8 +22,8 @@
            class="btn"
            type="submit"
            [disabled]="profileForm.invalid || submitted"
-        >{{"buttons.sign-in" | translate}}</button>
-        <button class="btn" (click)="add()">{{"buttons.sign-up" | translate}}</button>
+        >{{'buttons.sign-in' | translate}}</button>
+        <button class="btn" (click)="add()">{{'buttons.sign-up' | translate}}</button>
       </div>
     </form>
 </div>

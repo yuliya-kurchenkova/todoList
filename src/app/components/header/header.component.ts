@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../../admin/shared/services/auth.service";
 import { TranslateService } from "@ngx-translate/core";
@@ -8,7 +8,7 @@ import { TranslateService } from "@ngx-translate/core";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   public language: string = 'en';
 
   constructor(
@@ -19,10 +19,6 @@ export class HeaderComponent implements OnInit {
   translate.setDefaultLang(this.language);
   }
 
-
-  public ngOnInit(): void {
-  }
-
   public logout(event: Event) {
     event.preventDefault();
     this.auth.logout();
@@ -30,11 +26,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public changeLanguage(): void {
-    if(this.language === 'en'){
-      this.language = 'ru';
-    } else {
-      this.language = 'en';
-    }
+    this.language === 'en' ? this.language = 'ru' : this.language = 'en';
     this.translate.use(this.language);
   }
 
