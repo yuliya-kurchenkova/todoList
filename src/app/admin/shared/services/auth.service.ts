@@ -46,6 +46,10 @@ export class AuthService {
   //   return this.adminUser
   // }
 
+  signup(user: User): Observable<any> {
+    return this.http.post(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/users.json`, user)
+  }
+
   public logout() {
     this.setToken(null)
   }

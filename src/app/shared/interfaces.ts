@@ -7,6 +7,7 @@ export interface User {
   uid?: string
   firstName?: string
   lastName?: string
+  displayName?: string;
 }
 
 export interface FbAuthResponse {

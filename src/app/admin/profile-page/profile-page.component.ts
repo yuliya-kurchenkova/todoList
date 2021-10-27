@@ -28,6 +28,7 @@ export class ProfilePageComponent implements OnInit {
       console.log("user", user);
       if(this.user) {
         this.currentUserId = this.db.collection('users').doc()
+        console.log(this.currentUserId)
       }
     })
   }

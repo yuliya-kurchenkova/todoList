@@ -6,6 +6,7 @@ import { TranslateService} from "@ngx-translate/core";
 import { User } from "../../shared/interfaces";
 import { FirebaseService } from "../shared/services/firebase.service";
 
+
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
@@ -64,6 +65,20 @@ export class SignupPageComponent implements OnInit {
 
     this.submitted = true;
 
+    const user: User = {
+      email: this.registrationForm.value.email,
+      password: this.registrationForm.value.password,
+      firstName: this.registrationForm.value.firstName,
+      lastName: this.registrationForm.value.lastName,
+      uid: this.registrationForm.value.uid
+    };
+
+    // this.fireAuth.signUp(user).subscribe(() => {
+    //   console.log(user)
+    //   this.registrationForm.reset();
+    //   this.router.navigate(['/admin', 'profile']);
+    //   this.submitted = false;
+    // });
     // const user: User = {
     //   email: this.registrationForm.value.email,
     //   password: this.registrationForm.value.password,

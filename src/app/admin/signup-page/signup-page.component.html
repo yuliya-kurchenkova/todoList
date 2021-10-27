@@ -6,7 +6,7 @@
       {{message}}
     </div>
     <div>
-      <input type="text" name="name" class="input" placeholder="{{'placeholders.firstName' | translate}}" formControlName="firstName"/>
+      <input type="text" #firstName name="name" class="input" placeholder="{{'placeholders.firstName' | translate}}" formControlName="firstName"/>
       <div class="validation"  *ngIf="registrationForm.controls['firstName'].invalid && registrationForm.controls['firstName'].touched">
         <small>{{'errors.firstName' | translate}}</small>
       </div>
