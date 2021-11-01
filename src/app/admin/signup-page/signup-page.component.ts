@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { AuthService } from "../shared/services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService} from "@ngx-translate/core";
-import { User } from "../../shared/interfaces";
+
 import { FirebaseService } from "../shared/services/firebase.service";
+import { User } from "../../shared/interfaces";
+import { HttpClient } from "@angular/common/http";
+
 
 
 @Component({
@@ -15,17 +17,24 @@ import { FirebaseService } from "../shared/services/firebase.service";
 export class SignupPageComponent implements OnInit {
 
   public registrationForm!: FormGroup;
-  public submitted:boolean = false;
-  public title: string = '';
-  public message: string = '';
+  public submitted: boolean = false;
+  public users: any;
+  public key!: [string, (((v: PropertyKey) => boolean) | (() => string) | (() => Object) | ((v: Object) => boolean) | Function)][];
+  public id!:  any;
+  public newUser: any
+  public currentUserId: any
+  public displayName: any
+  public res: any;
+  public err: string = '';
+  public isLoader: boolean = false;
 
 
   constructor(
-    private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private fireAuth: FirebaseService
+    private fireAuth: FirebaseService,
+    private http: HttpClient,
   ) {
     translate.setDefaultLang('en');
   }
@@ -58,37 +67,59 @@ export class SignupPageComponent implements OnInit {
   }
 
   public submit(): void {
-    console.log(this.registrationForm.invalid)
-    if(this.registrationForm.invalid) {
+    if (this.registrationForm.invalid) {
       return
     }
-
     this.submitted = true;
+    this.isLoader = true;
 
     const user: User = {
       email: this.registrationForm.value.email,
       password: this.registrationForm.value.password,
       firstName: this.registrationForm.value.firstName,
       lastName: this.registrationForm.value.lastName,
-      uid: this.registrationForm.value.uid
     };
 
-    // this.fireAuth.signUp(user).subscribe(() => {
-    //   console.log(user)
-    //   this.registrationForm.reset();
-    //   this.router.navigate(['/admin', 'profile']);
-    //   this.submitted = false;
-    // });
-    // const user: User = {
-    //   email: this.registrationForm.value.email,
-    //   password: this.registrationForm.value.password,
-    //   // userName: this.registrationForm.value.userName
-    // };
+    this.fireAuth.signUp(user)
+      .then((res) => {
+        this.res = res
+        this.newUser = res.user;
+        this.currentUserId = this.newUser.uid;
+        this.displayName = this.newUser.firstName + ' ' + this.newUser.lastName
 
-    this.fireAuth.signUp(this.registrationForm.value)
-      .then((result) => {
-        console.log( "result", result)
+        const userData = {
+          uid: this.currentUserId,
+          email: user.email,
+          displayName: user.firstName + ' ' + user.lastName,
+          isAft: true
+        }
+
+         this.http
+           .post(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/users/${userData.uid}.json`, userData)
+           .subscribe(data => {
+             this.key = Object.values(data)
+             this.id = this.key[0]
+
+             this.fireAuth.signIn(this.registrationForm.value.email, this.registrationForm.value.password)
+               .then(res => {
+               this.registrationForm.reset();
+               this.submitted = false;
+               this.router.navigate(['/admin', 'profile'], {
+                 queryParams: { id: this.currentUserId }
+               });
+             })
+               .catch(err => {
+                 this.isLoader = false
+                 this.err = err.message
+               })
+           }, err => {
+             this.err = err.message;
+             this.isLoader = false;
+           })
       })
-      this.router.navigate(['/admin', 'profile']);
+      .catch(err => {
+        this.isLoader = false
+        this.err = err.message
+      })
   }
 }

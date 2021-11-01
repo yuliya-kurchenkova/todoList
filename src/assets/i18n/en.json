@@ -8,7 +8,9 @@
   "buttons": {
     "sign-in": "Sign In",
     "sign-up": "Sign Up",
-    "language": "English"
+    "language": "English",
+    "login": "Login",
+    "logout": "Logout"
   },
   "errors": {
     "email": "Enter the email",

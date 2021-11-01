@@ -7,7 +7,8 @@ export interface User {
   uid?: string
   firstName?: string
   lastName?: string
-  displayName?: string;
+  displayName?: string
+  localId?: string
 }
 
 export interface FbAuthResponse {

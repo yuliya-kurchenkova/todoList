@@ -2,7 +2,7 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import {Environment} from "./interface";
+import {Environment} from "../../../firebase/src/environments/interface";
 
 export const environment: Environment = {
   production: false,
@@ -15,6 +15,9 @@ export const environment: Environment = {
   appId: "1:762241243387:web:92588a6459d5079a16785e"
   }
 };
+
+export const authURL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`;
+export const baseURL = 'https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/';
 
 /*
  * For easier debugging in development mode, you can import the following file

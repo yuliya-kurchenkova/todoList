@@ -1,9 +1,7 @@
 <p>profile-page works!</p>
 <div>
-  <div>
-<!--    <h1>Hello: <strong>{{user.firstName}}</strong></h1>-->
-<!--    <p>User ID: <strong>{{user.uid}}</strong></p>-->
-<!--    <p>Email: <strong>{{user.email}}</strong></p>-->
+  <div *ngIf="data">
+   <h1>Hello: <strong>{{displayName}}</strong></h1>
   </div>
 </div>
 <router-outlet></router-outlet>

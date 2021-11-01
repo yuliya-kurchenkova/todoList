@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { User } from "../../shared/interfaces";
-import { AuthService } from "../shared/services/auth.service";
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { User } from '../../shared/interfaces';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { FirebaseService } from '../shared/services/firebase.service';
 
 
 @Component({
@@ -14,26 +14,24 @@ import { TranslateService } from '@ngx-translate/core';
 export class LoginPageComponent implements OnInit {
 
   public profileForm!: FormGroup;
-  public submitted:boolean = false;
-  public title: string = '';
+  public submitted: boolean = false;
+  public isActive: boolean = false;
   public message: string = '';
+  public err: string = '';
+  public isLoader: boolean = false;
+
 
   constructor(
-    private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private fireAuth: FirebaseService,
   ) {
     translate.setDefaultLang('en');
   }
 
 
   public ngOnInit(): void {
-    this.route.queryParams.subscribe((params: Params) => {
-      if(params['loginAgain']) {
-        this.message = 'Please enter data'
-      }
-    })
 
     this.profileForm = new FormGroup({
       email: new FormControl(null, [
@@ -56,7 +54,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   public submit(): void {
-    if(this.profileForm.invalid) {
+    if (this.profileForm.invalid) {
       return
     }
 
@@ -64,22 +62,31 @@ export class LoginPageComponent implements OnInit {
 
     const user: User = {
       email: this.profileForm.value.email,
-      password: this.profileForm.value.password
+      password: this.profileForm.value.password,
     };
 
-    this.auth.login(user).subscribe(() => {
-      this.profileForm.reset();
-      this.router.navigate(['/admin', 'profile']);
-      this.submitted = false;
-    });
+    this.fireAuth.signIn(this.profileForm.value.email, this.profileForm.value.password)
+      .then(res => {
+        this.isLoader = true;
+        let userData = res.user;
+        let userId = userData?.uid;
+        this.fireAuth.changeIsSignedIn(true);
+        localStorage.setItem('uid', JSON.stringify(res.user?.uid))
+        this.profileForm.reset();
+        this.submitted = false;
+        this.isLoader = false;
+        this.router.navigate(['/admin', 'profile'], {
+        queryParams: { id: userId }
+        })
+      })
+      .catch(err => {
+        this.isLoader = false
+        this.err = err.message
+      })
+  }
 
-    // this.auth.profile().subscribe((data:any) => data.email);
-  };
-
-  add() {
+  public add(): void {
     this.router.navigate(['/admin', 'signup']);
-    this.title = 'gofkh';
-    localStorage.setItem('ggg', this.title);
   };
 
 }
