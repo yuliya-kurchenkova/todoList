@@ -16,6 +16,9 @@ export const environment: Environment = {
   }
 };
 
+export const authURL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`;
+export const baseURL = 'https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/';
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

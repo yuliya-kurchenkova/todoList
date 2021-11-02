@@ -1,21 +1,34 @@
 <nav class="nav">
-  <h1>
-     <a routerLink="/">{{"titles.name-app" | translate}}</a>
-  </h1>
+  <div>
+    <a class="title-name" routerLink="/">{{"titles.name-app" | translate}}</a>
+  </div>
   <ul>
     <li
-        class="nav-item"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}"
+      class="nav-item"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}"
     >
       <a routerLink="/">Home</a>
     </li>
-    <li>
-      <button class="btn" (click)="logout($event)">{{"buttons.sign-in" | translate}}</button>
+    <li
+      class="nav-item"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}"
+    >
+      <a routerLink="/admin/create">Create</a>
     </li>
-    <li>
-      <button translate (click)="changeLanguage()">buttons.language</button>
+    <li *ngIf="!isSignIn">
+      <button mat-raised-button color="accent"   (click)="logout($event)">{{ "buttons.login"  | translate }}</button>
     </li>
+     <li *ngIf="isSignIn" class='img'>
+       <img class='ava' src='../../../assets/img/smile.png' alt='User'>
+     </li>
+     <li *ngIf="isSignIn">
+       <button mat-raised-button translate (click)="logoutUser()">{{ "buttons.logout" | translate }}</button>
+     </li>
+     <li>
+       <button mat-raised-button translate (click)="changeLanguage()">{{ "buttons.language" | translate }}</button>
+     </li>
   </ul>
 </nav>
 

@@ -2,19 +2,26 @@
   "titles": {
     "name-app": "Список дел",
     "copy": "Авторское право",
-    "formIn": "Форма входа"
+    "formIn": "Форма входа",
+    "formUp": "Форма регистрации"
   },
   "buttons": {
     "sign-in": "Вход",
     "sign-up": "Регистрация",
-    "language": "Русский"
+    "language": "Русский",
+    "login": "Вход",
+    "logout": "Выход"
   },
   "errors": {
     "email": "Введите адрес электронной почты",
-    "password": "Пароль неверный"
+    "password": "Пароль неверный",
+    "firstName": "Имя не указано",
+    "lastName": "Фамилия не указано"
   },
   "placeholders": {
     "email": "Эл. адрес",
-    "password": "Пароль"
+    "password": "Пароль",
+    "firstName": "Имя",
+    "lastName": "Фамилия"
   }
 }

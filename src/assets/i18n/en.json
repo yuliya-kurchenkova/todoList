@@ -2,19 +2,26 @@
   "titles": {
     "name-app": "Todo List",
     "copy": "Copyright",
-    "formIn": "Login form"
+    "formIn": "Login form",
+    "formUp": "Registration form"
   },
   "buttons": {
     "sign-in": "Sign In",
     "sign-up": "Sign Up",
-    "language": "English"
+    "language": "English",
+    "login": "Login",
+    "logout": "Logout"
   },
   "errors": {
     "email": "Enter the email",
-    "password": "Password is not correct"
+    "password": "Password is not correct",
+    "firstName": "Name not specified",
+    "lastName": "Last name is not specified"
   },
   "placeholders": {
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "firstName": "First name",
+    "lastName": "Last name"
   }
 }

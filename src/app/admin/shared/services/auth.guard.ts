@@ -3,9 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Observable } from "rxjs";
 import { AuthService } from "./auth.service";
 
-//  export interface ComponentCanActive{
-//      canActive: () => boolean | Observable<boolean>
-//  }
+
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(
@@ -16,7 +14,7 @@ export class AuthGuard implements CanActivate {
     public canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot,
-    ): Observable<boolean> | boolean {
+    ): Observable<boolean> | Promise<boolean> | boolean {
     if(this.auth.isAuthenticated()) {
         return true;
     } else {
@@ -26,7 +24,6 @@ export class AuthGuard implements CanActivate {
                 loginAgain: true
             }
         });
-    }
-    return false
-    }
+        return false;
+    }}
 }

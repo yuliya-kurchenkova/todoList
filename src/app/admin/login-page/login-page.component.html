@@ -1,31 +1,34 @@
 <div class="modal box">
-    <form class="form" [formGroup]="profileForm" (ngSubmit)="submit()">
-      <h2>{{"titles.formIn" | translate}}</h2>
+  <form class="form" [formGroup]="profileForm" (ngSubmit)="submit()">
+    <h2 class="title">{{"titles.formIn" | translate}}</h2>
+    <div class="box" [ngClass]="{invalid: profileForm.controls.email.touched && profileForm.controls.password.invalid}">
+      <mat-form-field>
+        <mat-label>{{ "placeholders.email" | translate }}</mat-label>
+        <input matInput type="text" placeholder="{{ 'placeholders.email' | translate }}" formControlName="email">
+        <mat-error class="validation" *ngIf="email && email.invalid && email.touched">{{"errors.email" | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="box" [ngClass]="{invalid: profileForm.get('password')?.touched && profileForm.get('password')?.invalid}">
+      <mat-form-field>
+        <mat-label>{{ "placeholders.password" | translate }}</mat-label>
+        <input matInput type="password" placeholder="{{'placeholders.password' | translate}}" formControlName="password">
+        <mat-error class="validation" *ngIf="password && password.invalid && password.touched">{{"errors.password" | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="box">
+      <button mat-raised-button color="accent"
+        type="submit"
+        [disabled]="profileForm.invalid || submitted"
+      >
+        {{"buttons.sign-in" | translate}}
+      </button>
+      <button mat-raised-button color="accent" (click)="add()">{{"buttons.sign-up" | translate}}</button>
+    </div>
+  </form>
+</div>
 
-      <div class="alert" *ngIf="message">
-        {{message}}
-      </div>
-      <div [ngClass]="{invalid: profileForm.controls.email.touched && profileForm.controls.password.invalid}">
-        <input type="email" class="input" placeholder="{{'placeholders.email' | translate}}" formControlName="email"/>
-        <div class="validation" *ngIf="email && email.invalid && email.touched">
-          <small>{{'errors.email' | translate}}</small>
-        </div>
-      </div>
-      <div [ngClass]="{invalid: profileForm.get('password')?.touched && profileForm.get('password')?.invalid}">
-        <input type="password" class="input" placeholder="{{'placeholders.password' | translate}}" formControlName="password"/>
-        <div class="validation" *ngIf="password && password.invalid && password.touched">
-          <small>{{'errors.password' | translate}}</small>
-        </div>
-      </div>
-      <div class="box-around">
-        <button
-           class="btn"
-           type="submit"
-           [disabled]="profileForm.invalid || submitted"
-        >{{'buttons.sign-in' | translate}}</button>
-        <button class="btn" (click)="add()">{{'buttons.sign-up' | translate}}</button>
-      </div>
-    </form>
+<div class="loader" *ngIf="isLoader">
+  <mat-spinner color="accent"></mat-spinner>
 </div>
 
 <router-outlet></router-outlet>
