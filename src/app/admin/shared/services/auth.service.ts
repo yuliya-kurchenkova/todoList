@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { FbAuthResponse } from "../../../shared/interfaces";
+import { FbAuthResponse } from "../../../shared/interfaces/interfaces";
 import { LocalStorageService } from "./local-storage.service";
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AuthService {
 
   public get token(): string {
     const expDate = new Date(this.localStorageService.get('fb-token-exp')!);
-    if(new Date > expDate) {
+    if (new Date > expDate) {
       this.logout();
       return '';
     }

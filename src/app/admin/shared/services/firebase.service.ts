@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { User } from "../../../shared/interfaces";
+import { User } from "../../../shared/interfaces/interfaces";
 import { Subject } from "rxjs";
 
 

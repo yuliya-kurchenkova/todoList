@@ -18,6 +18,9 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatIconModule } from "@angular/material/icon";
+
 
 
 @NgModule({
@@ -47,7 +50,9 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule,
+    MatIconModule
   ],
   exports: [RouterModule, TranslateModule],
   providers: [AuthService, AuthGuard]

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TranslateService} from "@ngx-translate/core";
 
 import { FirebaseService } from "../shared/services/firebase.service";
-import { User } from "../../shared/interfaces";
+import { User } from "../../shared/interfaces/interfaces";
 import { HttpClient } from "@angular/common/http";
 
 
@@ -49,10 +49,10 @@ export class SignupPageComponent implements OnInit {
         Validators.minLength(6)
       ]),
       firstName: new FormControl(null, [
-        Validators.required,
+        Validators.required
       ]),
       lastName: new FormControl(null, [
-        Validators.required,
+        Validators.required
       ])
     });
   }
@@ -89,7 +89,7 @@ export class SignupPageComponent implements OnInit {
         const userData = {
           uid: this.currentUserId,
           email: user.email,
-          displayName: user.firstName + ' ' + user.lastName,
+          displayName: user.firstName + ' ' + user.lastName
         }
 
          this.http

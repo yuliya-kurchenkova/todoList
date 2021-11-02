@@ -1,7 +1,46 @@
-<p>profile-page works!</p>
-<div>
-  <div *ngIf="data">
-   <h1>Hello: <strong>{{displayName}}</strong></h1>
+<div class="modal">
+  <div>
+    <div *ngIf="data" class="subject">
+      <h1>{{displayName}}</h1>
+    </div>
+  </div>
+  <div class="container">
+    <form class="example-form" [formGroup]="formAddTask">
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Title</mat-label>
+        <input matInput type="text" [(ngModel)]="value" formControlName="title">
+        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Task</mat-label>
+        <input matInput #message maxlength="256" placeholder="Ex. I need help with..." formControlName="description">
+        <mat-hint align="start"></mat-hint>
+        <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+      </mat-form-field>
+      <div class="example-button-row">
+        <button mat-raised-button  [disabled]="formAddTask.invalid " (click)="addTask()">Add</button>
+      </div>
+    </form>
+  </div>
+  <ng-container *ngIf="(asyncTabs | async) === null">
+    Loading tabs...
+  </ng-container>
+
+  <mat-tab-group color="accent">
+    <mat-tab *ngFor="let tab of asyncTabs | async">
+      <ng-template mat-tab-label>{{tab.label}}</ng-template>
+        {{tab.content}}
+    </mat-tab>
+  </mat-tab-group>
+  <div class="form" *ngFor="let task of tasks">
+    <mat-card class="example-card">
+      <mat-card-title>{{task.title}}</mat-card-title>
+      <mat-card-content>
+        <p>{{task.description}}</p>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
 <router-outlet></router-outlet>

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
-import { User } from '../../shared/interfaces';
+import { User } from '../../shared/interfaces/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { FirebaseService } from '../shared/services/firebase.service';
+
 
 
 @Component({
@@ -15,7 +16,6 @@ export class LoginPageComponent implements OnInit {
 
   public profileForm!: FormGroup;
   public submitted: boolean = false;
-  public isActive: boolean = false;
   public message: string = '';
   public err: string = '';
   public isLoader: boolean = false;
@@ -66,12 +66,11 @@ export class LoginPageComponent implements OnInit {
     };
 
     this.fireAuth.signIn(this.profileForm.value.email, this.profileForm.value.password)
-      .then(res=> {
+      .then(res => {
         this.isLoader = true;
         let userData = res.user;
         let userId = userData?.uid;
         this.fireAuth.changeIsSignedIn(true);
-        localStorage.setItem('uid', JSON.stringify(res.user?.uid));
         this.profileForm.reset();
         this.submitted = false;
         this.isLoader = false;
