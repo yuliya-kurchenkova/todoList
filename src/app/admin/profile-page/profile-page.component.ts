@@ -17,7 +17,7 @@ export class ProfilePageComponent implements OnInit {
   public key!: string[];
   public id!: string;
   public localId!: string;
-  public data:  any = 1
+  public data:  any = 1;
   public profile!: any;
   public displayName: any;
   public error: string = '';
@@ -37,13 +37,13 @@ export class ProfilePageComponent implements OnInit {
 
     this.http
       .get(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/users/${id}.json`)
-      .subscribe((data:any) => {
-        this.data = data
-        this.key = Object.keys(data)
-        this.id = this.key[0]
-        this.localId = this.id
-        this.profile = data[`${this.localId}`]
-        this.displayName = this.profile.displayName
+      .subscribe((data: any) => {
+        this.data = data;
+        this.key = Object.keys(data);
+        this.id = this.key[0];
+        this.localId = this.id;
+        this.profile = data[`${this.localId}`];
+        this.displayName = this.profile.displayName;
       },err => {
       this.error = err.message;
     })

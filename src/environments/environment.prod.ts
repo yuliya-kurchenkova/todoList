@@ -1,4 +1,4 @@
-import {Environment} from "../../../firebase/src/environments/interface";
+import {Environment} from "./interface";
 
 export const environment: Environment = {
   production: true,

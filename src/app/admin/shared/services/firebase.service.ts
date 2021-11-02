@@ -16,20 +16,20 @@ export class FirebaseService {
   }
 
   public signIn(email: string, password: string) {
-    return this.fireAuth.signInWithEmailAndPassword(email, password)
+    return this.fireAuth.signInWithEmailAndPassword(email, password);
   }
 
-  public logout() {
+  public logout(): void {
     this.fireAuth.signOut();
     }
 
-  public changeIsSignedIn(bool:boolean):void {
+  public changeIsSignedIn(bool:boolean): void {
     this.isSignedIn = bool;
     this.stream$.next(this.isSignedIn);
   }
 
   public signUp(user: User): Promise<any> {
-    return this.fireAuth.createUserWithEmailAndPassword(user.email, user.password)
+    return this.fireAuth.createUserWithEmailAndPassword(user.email, user.password);
   }
 }
 

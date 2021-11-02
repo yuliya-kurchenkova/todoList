@@ -20,7 +20,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore/';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { FirebaseService } from "./admin/shared/services/firebase.service";
+import { FirebaseService } from './admin/shared/services/firebase.service';
 
 
 
@@ -30,7 +30,7 @@ import { FirebaseService } from "./admin/shared/services/firebase.service";
     HomeComponent,
     MainLayoutComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

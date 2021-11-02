@@ -25,7 +25,7 @@ export class LoginPageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private fireAuth: FirebaseService,
+    private fireAuth: FirebaseService
   ) {
     translate.setDefaultLang('en');
   }
@@ -55,23 +55,23 @@ export class LoginPageComponent implements OnInit {
 
   public submit(): void {
     if (this.profileForm.invalid) {
-      return
+      return;
     }
 
     this.submitted = true;
 
     const user: User = {
       email: this.profileForm.value.email,
-      password: this.profileForm.value.password,
+      password: this.profileForm.value.password
     };
 
     this.fireAuth.signIn(this.profileForm.value.email, this.profileForm.value.password)
-      .then(res => {
+      .then(res=> {
         this.isLoader = true;
         let userData = res.user;
         let userId = userData?.uid;
         this.fireAuth.changeIsSignedIn(true);
-        localStorage.setItem('uid', JSON.stringify(res.user?.uid))
+        localStorage.setItem('uid', JSON.stringify(res.user?.uid));
         this.profileForm.reset();
         this.submitted = false;
         this.isLoader = false;
@@ -80,8 +80,8 @@ export class LoginPageComponent implements OnInit {
         })
       })
       .catch(err => {
-        this.isLoader = false
-        this.err = err.message
+        this.isLoader = false;
+        this.err = err.message;
       })
   }
 

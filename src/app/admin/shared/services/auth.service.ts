@@ -15,27 +15,27 @@ export class AuthService {
   public get token(): string {
     const expDate = new Date(this.localStorageService.get('fb-token-exp')!);
     if(new Date > expDate) {
-      this.logout()
-      return ''
+      this.logout();
+      return '';
     }
-    return this.localStorageService.get('fb-token')!
+    return this.localStorageService.get('fb-token')!;
   }
 
-  public logout() {
-    this.setToken(null)
+  public logout(): void {
+    this.setToken(null);
   }
 
   public isAuthenticated(): boolean {
-    return !this.token
+    return !this.token;
   }
 
   private setToken(response: FbAuthResponse | null): any {
     if (response) {
-      const expDate = new Date(new Date().getTime() + +response!.expiresIn * 1000)
-      this.localStorageService.set('fb-token', response!.idToken)
-      this.localStorageService.set('fb-token-exp', expDate.toString())
+      const expDate = new Date(new Date().getTime() + +response!.expiresIn * 1000);
+      this.localStorageService.set('fb-token', response!.idToken);
+      this.localStorageService.set('fb-token-exp', expDate.toString());
     } else {
-      localStorage.clear()
+      localStorage.clear();
     }
   }
 }

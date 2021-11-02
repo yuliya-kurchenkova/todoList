@@ -8,7 +8,6 @@ import { User } from "../../shared/interfaces";
 import { HttpClient } from "@angular/common/http";
 
 
-
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
@@ -21,9 +20,9 @@ export class SignupPageComponent implements OnInit {
   public users: any;
   public key!: [string, (((v: PropertyKey) => boolean) | (() => string) | (() => Object) | ((v: Object) => boolean) | Function)][];
   public id!:  any;
-  public newUser: any
-  public currentUserId: any
-  public displayName: any
+  public newUser: any;
+  public currentUserId: any;
+  public displayName: any;
   public res: any;
   public err: string = '';
   public isLoader: boolean = false;
@@ -34,7 +33,7 @@ export class SignupPageComponent implements OnInit {
     private route: ActivatedRoute,
     private translate: TranslateService,
     private fireAuth: FirebaseService,
-    private http: HttpClient,
+    private http: HttpClient
   ) {
     translate.setDefaultLang('en');
   }
@@ -77,28 +76,27 @@ export class SignupPageComponent implements OnInit {
       email: this.registrationForm.value.email,
       password: this.registrationForm.value.password,
       firstName: this.registrationForm.value.firstName,
-      lastName: this.registrationForm.value.lastName,
+      lastName: this.registrationForm.value.lastName
     };
 
     this.fireAuth.signUp(user)
-      .then((res) => {
+      .then((res: any) => {
         this.res = res
         this.newUser = res.user;
         this.currentUserId = this.newUser.uid;
-        this.displayName = this.newUser.firstName + ' ' + this.newUser.lastName
+        this.displayName = this.newUser.firstName + ' ' + this.newUser.lastName;
 
         const userData = {
           uid: this.currentUserId,
           email: user.email,
           displayName: user.firstName + ' ' + user.lastName,
-          isAft: true
         }
 
          this.http
            .post(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/users/${userData.uid}.json`, userData)
            .subscribe(data => {
-             this.key = Object.values(data)
-             this.id = this.key[0]
+             this.key = Object.values(data);
+             this.id = this.key[0];
 
              this.fireAuth.signIn(this.registrationForm.value.email, this.registrationForm.value.password)
                .then(res => {
@@ -109,17 +107,17 @@ export class SignupPageComponent implements OnInit {
                });
              })
                .catch(err => {
-                 this.isLoader = false
-                 this.err = err.message
+                 this.isLoader = false;
+                 this.err = err.message;
                })
            }, err => {
              this.err = err.message;
              this.isLoader = false;
            })
       })
-      .catch(err => {
-        this.isLoader = false
-        this.err = err.message
+      .catch( err => {
+        this.isLoader = false;
+        this.err = err.message;
       })
   }
 }

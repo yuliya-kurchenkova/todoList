@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes, PreloadAllModules } from "@angular/router";
 import { HomeComponent } from "./components/home-page/home.component";
 import { MainLayoutComponent } from "./shared/components/main-layout/main-layout.component";
 
@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '', component: MainLayoutComponent, children: [
       {path: '', redirectTo: '/', pathMatch: 'full'},
-      {path: '', component: HomeComponent},
+      {path: '', component: HomeComponent}
     ]
   },
   {

@@ -12,7 +12,7 @@ import { FirebaseService } from "../../admin/shared/services/firebase.service";
 })
 export class HeaderComponent implements OnInit {
   public language: string = 'en';
-  public isLogin: boolean = false
+  public isLogin: boolean = false;
   public isSignIn: boolean = false;
 
 
@@ -20,14 +20,13 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private auth: AuthService,
     private translate: TranslateService,
-    private fireAuth: FirebaseService,
+    private fireAuth: FirebaseService
   ) {
   translate.setDefaultLang(this.language);
   }
 
   public ngOnInit(): void {
     this.fireAuth.stream$.subscribe((value: boolean) => {
-      console.log(value)
       this.isSignIn = value;
     })
     this.isSignIn = !!localStorage.getItem('uid');
@@ -44,9 +43,9 @@ export class HeaderComponent implements OnInit {
     this.translate.use(this.language);
   }
 
-  public logoutUser():void {
+  public logoutUser(): void {
     this.fireAuth.logout();
-    this.fireAuth.changeIsSignedIn(false)
+    this.fireAuth.changeIsSignedIn(false);
     this.router.navigate(['/admin', 'login']);
   }
 }
