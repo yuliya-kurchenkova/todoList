@@ -1,4 +1,4 @@
-<div class="modal">
+<div>
   <div>
     <div *ngIf="data" class="subject">
       <h1>{{displayName}}</h1>
@@ -34,13 +34,9 @@
         {{tab.content}}
     </mat-tab>
   </mat-tab-group>
-  <div class="form" *ngFor="let task of tasks">
-    <mat-card class="example-card">
-      <mat-card-title>{{task.title}}</mat-card-title>
-      <mat-card-content>
-        <p>{{task.description}}</p>
-      </mat-card-content>
-    </mat-card>
+  <div class="card-task" *ngFor="let task of tasks">
+      <h2 class="card-task_title">{{task.title}}</h2>
+      <p class="card-task_text">{{task.description}}</p>
   </div>
 </div>
 <router-outlet></router-outlet>

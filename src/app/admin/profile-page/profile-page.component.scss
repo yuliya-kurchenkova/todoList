@@ -25,3 +25,22 @@ h1 {
 .example-full-width {
   width: 100%;
 }
+
+.card-task {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #616060;
+  box-shadow: 6px 5px 8px 8px;
+
+  &_title {
+    color: white;
+    font-size: 30px;
+    padding: 20px 0 10px 20px;
+  }
+
+  &_text {
+    color: white;
+    font-size: 15px;
+    padding: 5px 0 10px 20px;
+  }
+}

@@ -4,7 +4,8 @@ import { User } from '../../shared/interfaces/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { FirebaseService } from '../shared/services/firebase.service';
-
+import { regs } from '../../shared/constants/regs';
+import {LocalStorageService} from "../shared/services/local-storage.service";
 
 
 @Component({
@@ -19,13 +20,16 @@ export class LoginPageComponent implements OnInit {
   public message: string = '';
   public err: string = '';
   public isLoader: boolean = false;
+  public userData!: any;
+  private userId!: string;
 
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private fireAuth: FirebaseService
+    private fireAuth: FirebaseService,
+    private localStorageService: LocalStorageService
   ) {
     translate.setDefaultLang('en');
   }
@@ -36,7 +40,7 @@ export class LoginPageComponent implements OnInit {
     this.profileForm = new FormGroup({
       email: new FormControl(null, [
         Validators.required,
-        Validators.email
+        Validators.pattern(regs.EMAIL)
       ]),
       password: new FormControl(null, [
         Validators.required,
@@ -68,21 +72,23 @@ export class LoginPageComponent implements OnInit {
     this.fireAuth.signIn(this.profileForm.value.email, this.profileForm.value.password)
       .then(res => {
         this.isLoader = true;
-        let userData = res.user;
-        let userId = userData?.uid;
+        this.userData = res.user;
+        this.userId = this.userData?.uid;
         this.fireAuth.changeIsSignedIn(true);
-        this.profileForm.reset();
+        this.localStorageService.set('uid', JSON.stringify(res.user?.uid));
         this.submitted = false;
         this.isLoader = false;
         this.router.navigate(['/admin', 'profile'], {
-        queryParams: { id: userId }
-        })
+        queryParams: { id: this.userId }
+        });
       })
       .catch(err => {
+        this.fireAuth.changeIsSignedIn(false);
         this.isLoader = false;
         this.err = err.message;
-      })
-  }
+        this.profileForm.reset();
+      });
+  };
 
   public add(): void {
     this.router.navigate(['/admin', 'signup']);

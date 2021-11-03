@@ -28,3 +28,9 @@ export interface Task {
   title: string;
   description: string;
 }
+
+export interface UserData {
+  uid?: string;
+  email: string;
+  displayName: string;
+}

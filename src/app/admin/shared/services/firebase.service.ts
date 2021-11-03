@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { User } from "../../../shared/interfaces/interfaces";
-import { Subject } from "rxjs";
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { User } from '../../../shared/interfaces/interfaces';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -9,19 +9,19 @@ import { Subject } from "rxjs";
 })
 export class FirebaseService {
   public isSignedIn: boolean = false;
-
   public stream$ = new Subject<boolean>();
 
-  constructor(private fireAuth: AngularFireAuth) {
-  }
+  constructor(private fireAuth: AngularFireAuth) { }
 
-  public signIn(email: string, password: string) {
+  public signIn(email: string, password: string): Promise<any> {
     return this.fireAuth.signInWithEmailAndPassword(email, password);
   }
 
   public logout(): void {
     this.fireAuth.signOut();
-    }
+    localStorage.removeItem('uid');
+    this.stream$.next(this.isSignedIn);
+  }
 
   public changeIsSignedIn(bool:boolean): void {
     this.isSignedIn = bool;

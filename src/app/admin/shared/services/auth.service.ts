@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { FbAuthResponse } from "../../../shared/interfaces/interfaces";
-import { LocalStorageService } from "./local-storage.service";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FbAuthResponse } from '../../../shared/interfaces/interfaces';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class AuthService {
@@ -9,8 +9,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private localStorageService: LocalStorageService
-  ) {
-  }
+  ) { }
 
   public get token(): string {
     const expDate = new Date(this.localStorageService.get('fb-token-exp')!);
@@ -23,10 +22,6 @@ export class AuthService {
 
   public logout(): void {
     this.setToken(null);
-  }
-
-  public isAuthenticated(): boolean {
-    return !this.token;
   }
 
   private setToken(response: FbAuthResponse | null): any {

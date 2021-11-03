@@ -7,7 +7,6 @@ import { Observable, Observer } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
-
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -28,6 +27,7 @@ export class ProfilePageComponent implements OnInit {
   public value: string = '';
   public formAddTask!: FormGroup;
   public tasks: Task[] = [];
+
 
   constructor(
     private http: HttpClient,
@@ -54,7 +54,7 @@ export class ProfilePageComponent implements OnInit {
     })
 
     this.http
-      .get<string>(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/users/${this.idUrl}.json`)
+      .get<Task[]>(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/users/${this.idUrl}.json`)
       .subscribe((data: any) => {
         this.data = data;
         this.key = Object.keys(data);
@@ -66,6 +66,15 @@ export class ProfilePageComponent implements OnInit {
         this.error = err.message;
       })
 
+    this.http.get<Task[]>(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/tasks/${(this.idUrl)}.json`)
+      .subscribe(tasks => {
+        for (let key in tasks) {
+          let task = tasks[key];
+          task.id = key;
+          this.tasks.push(task);
+        }
+      });
+
     this.formAddTask = new FormGroup({
       title: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required])
@@ -73,9 +82,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   public addTask(): void {
-    if (this.formAddTask.invalid) {
-      return;
-    }
+    if (this.formAddTask.invalid) {}
 
     const task: Task = {
       title: this.formAddTask.value.title,
@@ -86,7 +93,9 @@ export class ProfilePageComponent implements OnInit {
       .subscribe(res => {
         this.tasks.push(task);
         this.formAddTask.reset();
-    }, err => console.log(err));
+    }, err => {
+        this.error = err.message;
+      });
   }
 
 }
