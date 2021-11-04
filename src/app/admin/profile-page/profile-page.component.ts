@@ -16,11 +16,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class ProfilePageComponent implements OnInit {
   public asyncTabs: Observable<ExampleTab[]>;
   public user!: User;
-  public key!: string[];
   public idUrl!: string;
-  public id!: string;
-  public localId!: string;
-  public data:  any = 1;
   public profile!: any;
   public displayName: any;
   public error: string = '';
@@ -38,7 +34,7 @@ export class ProfilePageComponent implements OnInit {
         observer.next([
           {label: 'All', content: 'Content 1'},
           {label: 'New', content: 'Content 2'},
-          {label: 'Old', content: 'Content 3'},
+          {label: 'Old', content: 'Content 3'}
         ]);
       }, 1000);
     });
@@ -56,11 +52,8 @@ export class ProfilePageComponent implements OnInit {
     this.http
       .get<Task[]>(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/users/${this.idUrl}.json`)
       .subscribe((data: any) => {
-        this.data = data;
-        this.key = Object.keys(data);
-        this.id = this.key[0];
-        this.localId = this.id;
-        this.profile = data[`${this.localId}`];
+        let localId = Object.keys(data)[0];
+        this.profile = data[`${localId}`];
         this.displayName = this.profile.displayName;
       },err => {
         this.error = err.message;

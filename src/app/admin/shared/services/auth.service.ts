@@ -13,7 +13,7 @@ export class AuthService {
 
   public get token(): string {
     const expDate = new Date(this.localStorageService.get('fb-token-exp')!);
-    if (new Date > expDate) {
+    if (new Date() > expDate) {
       this.logout();
       return '';
     }

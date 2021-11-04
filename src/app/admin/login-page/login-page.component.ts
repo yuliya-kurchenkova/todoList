@@ -71,9 +71,9 @@ export class LoginPageComponent implements OnInit {
 
     this.fireAuth.signIn(this.profileForm.value.email, this.profileForm.value.password)
       .then(res => {
-        this.isLoader = true;
         this.userData = res.user;
         this.userId = this.userData?.uid;
+        this.isLoader = true;
         this.fireAuth.changeIsSignedIn(true);
         this.localStorageService.set('uid', JSON.stringify(res.user?.uid));
         this.submitted = false;
