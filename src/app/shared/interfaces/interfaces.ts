@@ -18,3 +18,19 @@ export interface FbAuthResponse {
   returnSecureToken?: boolean;
 }
 
+export interface ExampleTab {
+  label: string;
+  content: string;
+}
+
+export interface Task {
+  id?: string;
+  title: string;
+  description: string;
+}
+
+export interface UserData {
+  uid?: string;
+  email: string;
+  displayName: string;
+}

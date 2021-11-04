@@ -1,11 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { TranslateService} from "@ngx-translate/core";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService} from '@ngx-translate/core';
 
-import { FirebaseService } from "../shared/services/firebase.service";
-import { User } from "../../shared/interfaces";
-import { HttpClient } from "@angular/common/http";
+import { FirebaseService } from '../shared/services/firebase.service';
+import { User, UserData } from '../../shared/interfaces/interfaces';
+import { HttpClient } from '@angular/common/http';
+import { regs } from '../../shared/constants/regs';
+import { LocalStorageService } from '../shared/services/local-storage.service';
 
 
 @Component({
@@ -33,7 +35,8 @@ export class SignupPageComponent implements OnInit {
     private route: ActivatedRoute,
     private translate: TranslateService,
     private fireAuth: FirebaseService,
-    private http: HttpClient
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
   ) {
     translate.setDefaultLang('en');
   }
@@ -42,17 +45,17 @@ export class SignupPageComponent implements OnInit {
     this.registrationForm = new FormGroup({
       email: new FormControl(null, [
         Validators.required,
-        Validators.email
+        Validators.pattern(regs.EMAIL)
       ]),
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(6)
       ]),
       firstName: new FormControl(null, [
-        Validators.required,
+        Validators.required
       ]),
       lastName: new FormControl(null, [
-        Validators.required,
+        Validators.required
       ])
     });
   }
@@ -67,7 +70,7 @@ export class SignupPageComponent implements OnInit {
 
   public submit(): void {
     if (this.registrationForm.invalid) {
-      return
+      return;
     }
     this.submitted = true;
     this.isLoader = true;
@@ -81,15 +84,15 @@ export class SignupPageComponent implements OnInit {
 
     this.fireAuth.signUp(user)
       .then((res: any) => {
-        this.res = res
+        this.res = res;
         this.newUser = res.user;
         this.currentUserId = this.newUser.uid;
         this.displayName = this.newUser.firstName + ' ' + this.newUser.lastName;
 
-        const userData = {
+        const userData: UserData = {
           uid: this.currentUserId,
           email: user.email,
-          displayName: user.firstName + ' ' + user.lastName,
+          displayName: user.firstName + ' ' + user.lastName
         }
 
          this.http
@@ -100,6 +103,8 @@ export class SignupPageComponent implements OnInit {
 
              this.fireAuth.signIn(this.registrationForm.value.email, this.registrationForm.value.password)
                .then(res => {
+               this.fireAuth.changeIsSignedIn(true);
+               this.localStorageService.set('uid', JSON.stringify(res.user?.uid));
                this.registrationForm.reset();
                this.submitted = false;
                this.router.navigate(['/admin', 'profile'], {
@@ -107,8 +112,10 @@ export class SignupPageComponent implements OnInit {
                });
              })
                .catch(err => {
+                 this.fireAuth.changeIsSignedIn(false);
                  this.isLoader = false;
                  this.err = err.message;
+                 this.registrationForm.reset();
                })
            }, err => {
              this.err = err.message;

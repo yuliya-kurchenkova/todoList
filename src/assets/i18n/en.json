@@ -14,7 +14,9 @@
   },
   "errors": {
     "email": "Enter the email",
-    "password": "Password is not correct",
+    "emailCorrect": "Enter is not correct",
+    "password": "Enter the password",
+    "passwordLength": "Password less than 6 characters",
     "firstName": "Name not specified",
     "lastName": "Last name is not specified"
   },

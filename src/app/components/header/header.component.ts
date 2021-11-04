@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { AuthService } from "../../admin/shared/services/auth.service";
-import { TranslateService } from "@ngx-translate/core";
-import { FirebaseService } from "../../admin/shared/services/firebase.service";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../admin/shared/services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
+import { FirebaseService } from '../../admin/shared/services/firebase.service';
+import { LocalStorageService } from '../../admin/shared/services/local-storage.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private auth: AuthService,
     private translate: TranslateService,
-    private fireAuth: FirebaseService
+    private fireAuth: FirebaseService,
+    private localStorageService: LocalStorageService
   ) {
   translate.setDefaultLang(this.language);
   }
@@ -29,12 +31,10 @@ export class HeaderComponent implements OnInit {
     this.fireAuth.stream$.subscribe((value: boolean) => {
       this.isSignIn = value;
     })
-    this.isSignIn = !!localStorage.getItem('uid');
+    this.isSignIn = !!this.localStorageService.get('uid');
   }
 
-  public logout(event: Event) {
-    event.preventDefault();
-    this.auth.logout();
+  public login(): void {
     this.router.navigate(['/admin', 'login']);
   }
 
@@ -43,9 +43,8 @@ export class HeaderComponent implements OnInit {
     this.translate.use(this.language);
   }
 
-  public logoutUser(): void {
+  public aa(): void {
     this.fireAuth.logout();
-    this.fireAuth.changeIsSignedIn(false);
     this.router.navigate(['/admin', 'login']);
   }
 }

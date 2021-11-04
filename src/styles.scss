@@ -10,8 +10,9 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #fff;
+  background-color: rgba(14, 12, 12, 0.73);;
   color: #333;
+  height: 96%;
 }
 
 ul {
@@ -24,7 +25,6 @@ ul {
   align-items: center;
   padding: 0.7rem 2rem;
   width: 100%;
-  margin-bottom: 1rem;
   background: #938c8c;
   color: #535353;
   text-align: center;
@@ -80,20 +80,15 @@ h1 a {
 }
 
 .modal {
-    position: fixed;
-    bottom: 30px;
-    top: 57px;
     width: 100%;
-    padding: 20px 0 225px;
-    background-color: rgba(0, 0, 0, .2);
-    backdrop-filter: blur(10px);
+    padding: 200px 0 225px;
 }
 
 .form {
   width: 360px;
   margin: 0 auto;
   text-align: start;
-  background: #746e6e;
+  background: #616060;
   box-shadow: 6px 5px 8px 8px;
 
   &.invalid {
@@ -150,7 +145,11 @@ h1 a {
 
 .loader {
   position: absolute;
-  top: 40px;
+  top: 10%;
+  left: 48%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 html, body {

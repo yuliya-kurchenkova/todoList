@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home-page/home.component';
 import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
 import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
 
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -24,13 +23,13 @@ import { FirebaseService } from './admin/shared/services/firebase.service';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     MainLayoutComponent,
-    HeaderComponent,
-    FooterComponent
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
