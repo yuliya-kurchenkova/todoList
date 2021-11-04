@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Observer } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FirebaseService } from '../shared/services/firebase.service';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class ProfilePageComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fireStore: FirebaseService
   ){
     this.asyncTabs = new Observable((observer: Observer<ExampleTab[]>) => {
       setTimeout(() => {
@@ -70,8 +72,10 @@ export class ProfilePageComponent implements OnInit {
 
     this.formAddTask = new FormGroup({
       title: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required])
+      description: new FormControl(null, [Validators.required]),
+      date: new FormControl(null, [Validators.required])
     });
+
   }
 
   public addTask(): void {
@@ -79,7 +83,8 @@ export class ProfilePageComponent implements OnInit {
 
     const task: Task = {
       title: this.formAddTask.value.title,
-      description: this.formAddTask.value.description
+      description: this.formAddTask.value.description,
+      date: this.formAddTask.value.date
     };
 
     this.http.post(`https://todo-angular-d27e2-default-rtdb.europe-west1.firebasedatabase.app/tasks/${(this.idUrl)}.json`, task)
@@ -87,6 +92,15 @@ export class ProfilePageComponent implements OnInit {
         this.tasks.push(task);
         this.formAddTask.reset();
     }, err => {
+        this.error = err.message;
+      });
+  }
+
+  public removeTask(task: Task): void {
+    this.fireStore.remove(task, this.idUrl)
+      .subscribe(() => {
+        this.tasks = this.tasks.filter(t => t.id !== task.id)
+      }, err => {
         this.error = err.message;
       });
   }

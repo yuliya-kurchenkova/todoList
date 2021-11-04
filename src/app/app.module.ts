@@ -23,7 +23,6 @@ import { FirebaseService } from './admin/shared/services/firebase.service';
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +52,7 @@ import { FirebaseService } from './admin/shared/services/firebase.service';
     MatButtonModule
   ],
   providers: [FirebaseService],
+  exports: [],
   bootstrap: [AppComponent]
 })
 
