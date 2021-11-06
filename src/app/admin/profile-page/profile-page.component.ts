@@ -3,9 +3,11 @@ import { User, Task, ExampleTab } from '../../shared/interfaces/interfaces'
 import { AuthService } from '../shared/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Observer } from 'rxjs';
+import {Observable, Observer, Subject} from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FirebaseService } from '../shared/services/firebase.service';
+import {EditTaskModalComponent} from "./edit-task-modal/edit-task-modal.component";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 
 
 @Component({
@@ -24,13 +26,16 @@ export class ProfilePageComponent implements OnInit {
   public value: string = '';
   public formAddTask!: FormGroup;
   public tasks: Task[] = [];
+  public formAddTask1: FormGroup | any;
+  public stream$ = new Subject<Task>();
 
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private fireStore: FirebaseService
-  ){
+    private fireStore: FirebaseService,
+    private dialog: MatDialog,
+  ) {
     this.asyncTabs = new Observable((observer: Observer<ExampleTab[]>) => {
       setTimeout(() => {
         observer.next([
@@ -47,7 +52,7 @@ export class ProfilePageComponent implements OnInit {
 
     this.route.queryParams.subscribe(url => {
       this.idUrl = url.id;
-    },err => {
+    }, err => {
       this.error = err.message;
     })
 
@@ -57,7 +62,7 @@ export class ProfilePageComponent implements OnInit {
         let localId = Object.keys(data)[0];
         this.profile = data[`${localId}`];
         this.displayName = this.profile.displayName;
-      },err => {
+      }, err => {
         this.error = err.message;
       })
 
@@ -79,9 +84,11 @@ export class ProfilePageComponent implements OnInit {
   }
 
   public addTask(): void {
-    if (this.formAddTask.invalid) {}
+    if (this.formAddTask.invalid) {
+    }
 
     const task: Task = {
+      id: this.formAddTask.value.id,
       title: this.formAddTask.value.title,
       description: this.formAddTask.value.description,
       date: this.formAddTask.value.date
@@ -91,7 +98,7 @@ export class ProfilePageComponent implements OnInit {
       .subscribe(res => {
         this.tasks.push(task);
         this.formAddTask.reset();
-    }, err => {
+      }, err => {
         this.error = err.message;
       });
   }
@@ -104,5 +111,41 @@ export class ProfilePageComponent implements OnInit {
         this.error = err.message;
       });
   }
+
+  public openDialog(task: Task) {
+    this.stream$.next(task);
+    console.log(task)
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "60%";
+    this.dialog.open(EditTaskModalComponent, {
+      width: '500px',
+      data: task
+    });
+
+    this.fireStore.editTask(task, this.idUrl)
+      .subscribe((e) => {
+        console.log(e)
+        console.log(e.title)
+        this.formAddTask1 = new FormGroup({
+          title: new FormControl(e.title, [Validators.required]),
+          description: new FormControl(e.description, [Validators.required])
+        });
+      }, err => {
+        this.error = err.message;
+      });
+  }
+
+  // openDialog(): void {
+  //
+  //   const dialogRef = this.dialog.open(EditTaskModalComponent, {
+  //     width: '250px'
+  //   });
+  //
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //   });
+//}
 
 }

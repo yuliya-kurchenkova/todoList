@@ -32,6 +32,7 @@
       </div>
     </div>
   </div>
+  <button>ccc</button>
   <ng-container *ngIf="(asyncTabs | async) === null">
     Loading tabs...
   </ng-container>
@@ -49,7 +50,7 @@
       </div>
       <div class="card-icon">
         <div>
-          <i (click)="removeTask(task)" class="material-icons">create</i>
+          <i (click)="openDialog(task)" class="material-icons">create</i>
         </div>
         <div>
           <i (click)="removeTask(task)" class="material-icons">delete</i>
@@ -58,4 +59,5 @@
     </div>
   </div>
 </div>
+
 <router-outlet></router-outlet>

@@ -22,8 +22,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { EditTaskModalComponent } from './profile-page/edit-task-modal/edit-task-modal.component';
+import { TaskService } from './shared/services/task.service'
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     LoginPageComponent,
     ProfilePageComponent,
     SignupPageComponent,
-    CreatePageComponent
+    CreatePageComponent,
+    EditTaskModalComponent
   ],
   imports: [
     CommonModule,
@@ -57,10 +59,15 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTabsModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatDialogModule
+
   ],
   exports: [RouterModule, TranslateModule],
-  providers: [AuthService, AuthGuard]
+  providers: [AuthService, AuthGuard, TaskService],
+  entryComponents: [
+    EditTaskModalComponent
+  ],
 })
 
 export class AdminModule {
