@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
         private localStorageService: LocalStorageService
-    ) {}
+    ) { }
 
     public canActivate(
         route: ActivatedRouteSnapshot,
@@ -21,5 +21,5 @@ export class AuthGuard implements CanActivate {
         this.router.navigate(['/admin', 'login']);
         return false;
       }
-    }
+    };
 }

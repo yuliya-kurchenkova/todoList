@@ -1,0 +1,24 @@
+<form (ngSubmit)="submit(form)" class="example-form" [formGroup]="form">
+  <div mat-dialog-actions>
+    <button class="btn-close" mat-stroked-button mat-dialog-close (click)="close()">x</button>
+  </div>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="title" ([ngModel])="myTask.title" formControlName="title"/>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput placeholder="description" ([ngModel])="myTask.description" formControlName="description"/>
+    <mat-hint align="start"></mat-hint>
+    <mat-hint align="end">/256</mat-hint>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" ([ngModel])="myTask.description" formControlName="date"/>
+    <mat-datepicker-toggle matSuffix [for]="picker">
+      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <button mat-stroked-button color="accent"  [disabled]="form.invalid" type="submit">Refresh</button>
+</form>

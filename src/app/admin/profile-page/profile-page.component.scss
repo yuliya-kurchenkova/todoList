@@ -1,5 +1,5 @@
 .subject {
-  margin: 20px 0 44px 67px;
+  margin: 20px 0 44px 0;
 }
 
 h1 {
@@ -12,18 +12,14 @@ h1 {
   max-width: 500px;
 }
 
-.example-form-field {
-  width: 200px;
+.btn-container{
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 20px 0;
 }
 
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
+.btn-container button {
+  margin-left: 20px;
 }
 
 .card-task {
@@ -49,19 +45,21 @@ h1 {
   }
 }
 
-.example-button-container {
-  display: flex;
-  flex-direction: column-reverse;
-  width: 80px;
-}
-
 .card-container {
   display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.card-icon {
-  display: flex;
-  align-items: end;
+.btn-options {
+  position: relative;
+  top: 16px;
+  left: 27px;
+}
+
+i {
+  position: relative;
+  top: 6px;
+  right: 7px;
 }

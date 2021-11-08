@@ -116,7 +116,7 @@ export class SignupPageComponent implements OnInit {
                  this.isLoader = false;
                  this.err = err.message;
                  this.registrationForm.reset();
-               })
+               });
            }, err => {
              this.err = err.message;
              this.isLoader = false;
@@ -125,6 +125,7 @@ export class SignupPageComponent implements OnInit {
       .catch( err => {
         this.isLoader = false;
         this.err = err.message;
-      })
-  }
+      });
+  };
+
 }

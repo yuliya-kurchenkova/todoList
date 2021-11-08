@@ -32,6 +32,6 @@ export class AuthService {
     } else {
       localStorage.clear();
     }
-  }
+  };
 }
 

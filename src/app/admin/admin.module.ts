@@ -22,9 +22,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
-import { EditTaskModalComponent } from './profile-page/edit-task-modal/edit-task-modal.component';
-import { TaskService } from './shared/services/task.service'
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
+import { EditTaskModalComponent } from './components/edit-task-modal/edit-task-modal.component';
+import { TaskService } from './shared/services/task.service';
+import { DeleteTaskModalComponent } from './components/delete-task-modal/delete-task-modal.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { TaskService } from './shared/services/task.service'
     ProfilePageComponent,
     SignupPageComponent,
     CreatePageComponent,
-    EditTaskModalComponent
+    EditTaskModalComponent,
+    DeleteTaskModalComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +47,7 @@ import { TaskService } from './shared/services/task.service'
           { path: 'login', component: LoginPageComponent  },
           { path: 'signup', component: SignupPageComponent },
           { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard] },
-          { path: 'create', component: CreatePageComponent, canActivate: [AuthGuard] }
+          { path: 'profile', component: CreatePageComponent, canActivate: [AuthGuard] }
         ]}
     ]),
     FormsModule,
@@ -60,13 +63,17 @@ import { TaskService } from './shared/services/task.service'
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDialogModule
+    MatDialogModule,
+    MatMenuModule
 
   ],
   exports: [RouterModule, TranslateModule],
-  providers: [AuthService, AuthGuard, TaskService],
+  providers: [AuthService, AuthGuard, TaskService,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
+  ],
   entryComponents: [
-    EditTaskModalComponent
+    EditTaskModalComponent,
+    DeleteTaskModalComponent
   ],
 })
 
