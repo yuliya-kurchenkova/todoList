@@ -32,7 +32,7 @@ export class ProfilePageComponent implements OnInit {
   public key!: string
   public myTask = new MyTask()
   public t: any;
-
+  public selected: number | null = null;
 
   constructor(
     private http: HttpClient,

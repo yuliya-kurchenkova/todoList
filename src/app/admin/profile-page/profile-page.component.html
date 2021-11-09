@@ -32,16 +32,16 @@
   </div>
 <div>
 <div class="btn-container">
-  <button mat-stroked-button color="accent" (click)="filterAll()">All</button>
-  <button mat-stroked-button color="accent" (click)="filterActive()">Active</button>
-  <button mat-stroked-button color="accent" (click)="filterDone()">Completed</button>
+  <button mat-stroked-button [style.background-color]="selected == 1 ? '#66E2A6' : '#938C8C'" (click)=" selected == 1? selected = 1 + 1:selected = 1; filterAll()">All</button>
+  <button mat-stroked-button [style.background-color]="selected == 2 ? '#66E2A6' : '#938C8C'" (click)=" selected == 2? selected = 2 + 1:selected = 2; filterActive()">Active</button>
+  <button mat-stroked-button [style.background-color]="selected == 3 ? '#66E2A6' : '#938C8C'" (click)=" selected == 3? selected = 3 + 1:selected = 3; filterDone()">Completed</button>
 </div>
 <div class="card-container">
   <div class="card-task" *ngFor="let task of tasks">
     <div>
       <h2 class="card-task_title">{{task.title}}</h2>
       <p class="card-task_text">{{task.description}}</p>
-      <p class="card-task_text">{{task.date | date: "fullDate"}}</p>
+      <p class="card-task_text"><span>Deadline: </span>{{task.date | date: "fullDate"}}</p>
     </div>
     <button class="btn-options" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
       <mat-icon>more_vert</mat-icon>

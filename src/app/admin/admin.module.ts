@@ -44,8 +44,8 @@ import { MatMenuModule } from '@angular/material/menu';
     RouterModule.forChild([
       {path: '', component: AdminLayoutComponent, children: [
           { path: '', redirectTo: '/admin/login', pathMatch: 'full'},
-          { path: 'login', component: LoginPageComponent  },
-          { path: 'signup', component: SignupPageComponent },
+          { path: 'login', component: LoginPageComponent },
+          { path: 'signup', component: SignupPageComponent},
           { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard] },
           { path: 'profile', component: CreatePageComponent, canActivate: [AuthGuard] }
         ]}

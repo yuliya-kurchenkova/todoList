@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormControl, FormGroup, NgModelGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, NgModelGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../../shared/services/firebase.service';
 import { MyTask } from '../../shared/services/task';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -46,20 +46,20 @@ export class EditTaskModalComponent implements OnInit {
 
   public submit(form: NgModelGroup): void {
     if (form.invalid) return;
+    console.log(this.data)
+    this.fireStore.updateTask(form.value, this.idUrl, this.data.id)
+      .subscribe(() => {
+      },err => {
+        this.error = err.message;
+      });
 
-  this.fireStore.updateTask(form.value, this.idUrl, this.data.id)
-    .subscribe(() => {
-    },err => {
-      this.error = err.message;
-    });
+    const updatedTodo = {
+      ...this.data,
+      ...form.value
+    };
+    console.log(updatedTodo)
+    this.dialogRef.close(updatedTodo);
 
-  const updatedTodo = {
-    ...this.data,
-    ...form.value
-  };
-
-  this.dialogRef.close(updatedTodo);
-
-  };
+    };
 
 }

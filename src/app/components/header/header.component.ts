@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
     this.translate.use(this.language);
   };
 
-  public aa(): void {
+  public logoutBtn(): void {
     this.fireAuth.logout();
     this.router.navigate(['/admin', 'login']);
   };

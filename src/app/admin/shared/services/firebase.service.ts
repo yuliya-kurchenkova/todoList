@@ -52,11 +52,13 @@ export class FirebaseService {
 
   public updateActiveStatus(myTask: MyTask, uid: string, id: string): Observable<any> {
     const body = {...myTask, status: 'active'};
+
     return this.http.put(`${baseURL}tasks/${uid}/${id}.json`, body);
   };
 
   public updateDoneStatus(myTask: MyTask, uid: string, id: string): Observable<any> {
     const body = {...myTask, status: 'done'};
+
     return this.http.put(`${baseURL}tasks/${uid}/${id}.json`, body);
   };
 
