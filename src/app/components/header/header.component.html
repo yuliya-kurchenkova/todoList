@@ -17,13 +17,13 @@
       routerLinkActive="active"
       [routerLinkActiveOptions]="{exact: true}"
     >
-      <a routerLink="/admin/create">Create</a>
+      <a routerLink="/admin/profile">Create</a>
     </li>
     <li *ngIf="!isSignIn">
       <button mat-raised-button color="accent" (click)="login()">{{ "buttons.login"  | translate }}</button>
     </li>
     <li *ngIf="isSignIn">
-      <button mat-raised-button translate (click)="aa()">{{ "buttons.logout" | translate }}</button>
+      <button mat-raised-button translate (click)="logoutBtn()">{{ "buttons.logout" | translate }}</button>
     </li>
     <li>
       <button mat-raised-button translate (click)="changeLanguage()">{{ "buttons.language" | translate }}</button>

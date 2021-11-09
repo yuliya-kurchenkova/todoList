@@ -1,11 +1,9 @@
-<div>
-  <div>
+<div class="profile-main">
+  <div class="container">
     <div class="subject">
       <h1>{{displayName}}</h1>
     </div>
-  </div>
-  <div class="container">
-    <form class="example-form" [formGroup]="formAddTask">
+    <div class="example-form" [formGroup]="formAddTask">
       <mat-form-field class="example-form-field" appearance="fill">
         <mat-label>Title</mat-label>
         <input matInput type="text" [(ngModel)]="value" formControlName="title">
@@ -14,29 +12,60 @@
         </button>
       </mat-form-field>
       <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Task</mat-label>
-        <input matInput #message maxlength="256" placeholder="Ex. I need help with..." formControlName="description">
-        <mat-hint align="start"></mat-hint>
+        <mat-label>Description</mat-label>
+        <input matInput #message maxlength="256" formControlName="description">
+        <mat-hint align="start">Write a new task to complete</mat-hint>
         <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <div class="example-button-row">
         <button mat-raised-button  [disabled]="formAddTask.invalid " (click)="addTask()">Add</button>
       </div>
-    </form>
+    </div>
   </div>
-  <ng-container *ngIf="(asyncTabs | async) === null">
-    Loading tabs...
-  </ng-container>
-
-  <mat-tab-group color="accent">
-    <mat-tab *ngFor="let tab of asyncTabs | async">
-      <ng-template mat-tab-label>{{tab.label}}</ng-template>
-        {{tab.content}}
-    </mat-tab>
-  </mat-tab-group>
+<div>
+<div class="btn-container">
+  <button mat-stroked-button [style.background-color]="selected == 1 ? '#66E2A6' : '#938C8C'" (click)=" selected == 1? selected = 1 + 1:selected = 1; filterAll()">All</button>
+  <button mat-stroked-button [style.background-color]="selected == 2 ? '#66E2A6' : '#938C8C'" (click)=" selected == 2? selected = 2 + 1:selected = 2; filterActive()">Active</button>
+  <button mat-stroked-button [style.background-color]="selected == 3 ? '#66E2A6' : '#938C8C'" (click)=" selected == 3? selected = 3 + 1:selected = 3; filterDone()">Completed</button>
+</div>
+<div class="card-container">
   <div class="card-task" *ngFor="let task of tasks">
+    <div>
       <h2 class="card-task_title">{{task.title}}</h2>
       <p class="card-task_text">{{task.description}}</p>
+      <p class="card-task_text"><span>Deadline: </span>{{task.date | date: "fullDate"}}</p>
+    </div>
+    <button class="btn-options" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="openDialog(task)">
+        <i class="material-icons">create</i>
+        <span>Edit task</span>
+      </button>
+      <button mat-menu-item (click)="removeTask(task)">
+        <i class="material-icons">delete</i>
+        <span>Delete task</span>
+      </button>
+      <button mat-menu-item (click)="statusDone(task)">
+        <i class="material-icons">done_all</i>
+        <span>Done task</span>
+      </button>
+      <button mat-menu-item (click)="statusActive(task)">
+        <i class="material-icons">access_time_filled</i>
+        <span>Active task</span>
+      </button>
+     </mat-menu>
+    </div>
   </div>
 </div>
 <router-outlet></router-outlet>
+

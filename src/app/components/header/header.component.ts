@@ -32,19 +32,19 @@ export class HeaderComponent implements OnInit {
       this.isSignIn = value;
     })
     this.isSignIn = !!this.localStorageService.get('uid');
-  }
+  };
 
   public login(): void {
     this.router.navigate(['/admin', 'login']);
-  }
+  };
 
   public changeLanguage(): void {
     this.language === 'en' ? this.language = 'ru' : this.language = 'en';
     this.translate.use(this.language);
-  }
+  };
 
-  public aa(): void {
+  public logoutBtn(): void {
     this.fireAuth.logout();
     this.router.navigate(['/admin', 'login']);
-  }
+  };
 }

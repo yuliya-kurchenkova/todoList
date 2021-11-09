@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import '~ngx-toastr/toastr';
+
 
 * {
   box-sizing: border-box;
@@ -160,3 +162,28 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+.example-form-field {
+  width: 200px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-button-container {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 80px;
+}
+
+input {
+  color: white !important;
+}
+
+

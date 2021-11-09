@@ -20,7 +20,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
+import { EditTaskModalComponent } from './components/edit-task-modal/edit-task-modal.component';
+import { TaskService } from './shared/services/task.service';
+import { DeleteTaskModalComponent } from './components/delete-task-modal/delete-task-modal.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -29,17 +35,19 @@ import { MatIconModule } from '@angular/material/icon';
     LoginPageComponent,
     ProfilePageComponent,
     SignupPageComponent,
-    CreatePageComponent
+    CreatePageComponent,
+    EditTaskModalComponent,
+    DeleteTaskModalComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {path: '', component: AdminLayoutComponent, children: [
           { path: '', redirectTo: '/admin/login', pathMatch: 'full'},
-          { path: 'login', component: LoginPageComponent  },
-          { path: 'signup', component: SignupPageComponent },
+          { path: 'login', component: LoginPageComponent },
+          { path: 'signup', component: SignupPageComponent},
           { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard] },
-          { path: 'create', component: CreatePageComponent, canActivate: [AuthGuard] }
+          { path: 'profile', component: CreatePageComponent, canActivate: [AuthGuard] }
         ]}
     ]),
     FormsModule,
@@ -52,10 +60,21 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatMenuModule
+
   ],
   exports: [RouterModule, TranslateModule],
-  providers: [AuthService, AuthGuard]
+  providers: [AuthService, AuthGuard, TaskService,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
+  ],
+  entryComponents: [
+    EditTaskModalComponent,
+    DeleteTaskModalComponent
+  ],
 })
 
 export class AdminModule {

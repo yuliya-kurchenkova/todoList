@@ -20,8 +20,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore/';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { FirebaseService } from './admin/shared/services/firebase.service';
-
-
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -50,9 +49,15 @@ import { FirebaseService } from './admin/shared/services/firebase.service';
       }
     }),
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      progressAnimation: 'increasing',
+      preventDuplicates: true
+    })
   ],
   providers: [FirebaseService],
+  exports: [ToastrModule],
   bootstrap: [AppComponent]
 })
 

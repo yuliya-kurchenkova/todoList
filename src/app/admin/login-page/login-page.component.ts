@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { FirebaseService } from '../shared/services/firebase.service';
 import { regs } from '../../shared/constants/regs';
-import {LocalStorageService} from "../shared/services/local-storage.service";
+import { LocalStorageService } from '../shared/services/local-storage.service';
 
 
 @Component({
