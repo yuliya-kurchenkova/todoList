@@ -31,41 +31,30 @@
     </div>
   </div>
 <div>
+<div>
+  <button (click)="sortFunc()">Sort</button>
+  <button (click)="sortFunc2()">Sort2</button>
+</div>
 <div class="btn-container">
   <button mat-stroked-button [style.background-color]="selected == 1 ? '#66E2A6' : '#938C8C'" (click)=" selected == 1? selected = 1 + 1:selected = 1; filterAll()">All</button>
-  <button mat-stroked-button [style.background-color]="selected == 2 ? '#66E2A6' : '#938C8C'" (click)=" selected == 2? selected = 2 + 1:selected = 2; filterActive()">Active</button>
-  <button mat-stroked-button [style.background-color]="selected == 3 ? '#66E2A6' : '#938C8C'" (click)=" selected == 3? selected = 3 + 1:selected = 3; filterDone()">Completed</button>
+  <button mat-stroked-button [style.background-color]="selected == 2 ? '#66E2A6' : '#938C8C'" (click)=" selected == 2? selected = 2 + 1:selected = 2; filterNew()">New</button>
+  <button mat-stroked-button [style.background-color]="selected == 3 ? '#66E2A6' : '#938C8C'" (click)=" selected == 3? selected = 3 + 1:selected = 3; filterInProcess()">In process</button>
+  <button mat-stroked-button [style.background-color]="selected == 4 ? '#66E2A6' : '#938C8C'" (click)=" selected == 4? selected = 4 + 1:selected = 4; filterDone()">Completed</button>
 </div>
-<div class="card-container">
-  <div class="card-task" *ngFor="let task of tasks">
-    <div>
-      <h2 class="card-task_title">{{task.title}}</h2>
-      <p class="card-task_text">{{task.description}}</p>
-      <p class="card-task_text"><span>Deadline: </span>{{task.date | date: "fullDate"}}</p>
-    </div>
-    <button class="btn-options" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="openDialog(task)">
-        <i class="material-icons">create</i>
-        <span>Edit task</span>
-      </button>
-      <button mat-menu-item (click)="removeTask(task)">
-        <i class="material-icons">delete</i>
-        <span>Delete task</span>
-      </button>
-      <button mat-menu-item (click)="statusDone(task)">
-        <i class="material-icons">done_all</i>
-        <span>Done task</span>
-      </button>
-      <button mat-menu-item (click)="statusActive(task)">
-        <i class="material-icons">access_time_filled</i>
-        <span>Active task</span>
-      </button>
-     </mat-menu>
-    </div>
-  </div>
+
+<form class="example-form">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Search</mat-label>
+    <input type="text" matInput placeholder="Search task" [(ngModel)]="searchStr" name="search">
+    <mat-icon matSuffix>content_paste_search</mat-icon>
+  </mat-form-field>
+</form>
+
+
+<app-task-item  *ngFor="let t of tasks" [task]="t" (onDel)="removeTask($event)" (onEdit)="openDialog($event)"></app-task-item>
 </div>
 <router-outlet></router-outlet>
 
+<!-- //*ngFor="let comment of comments" [comment]="comment" -->
+<!-- .sort(sortFunc) -->
+<!-- | search: searchStr -->

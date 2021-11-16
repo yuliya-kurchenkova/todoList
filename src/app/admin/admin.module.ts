@@ -27,6 +27,18 @@ import { EditTaskModalComponent } from './components/edit-task-modal/edit-task-m
 import { TaskService } from './shared/services/task.service';
 import { DeleteTaskModalComponent } from './components/delete-task-modal/delete-task-modal.component';
 import { MatMenuModule } from '@angular/material/menu';
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {HttpErrorInterceptorService} from "../shared/httperor-interceptor.service";
+import {MatBadgeModule} from '@angular/material/badge'
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import { EditCommentModalComponent } from './components/edit-comment-modal/edit-comment-modal.component';
+import { DeleteCommentModalComponent } from './components/delete-comment-modal/delete-comment-modal.component';
+import { CommentTaskComponent } from './profile-page/task-item/comment-task/comment-task.component';
+import { EditProfilePageComponent } from './edit-profile-page/edit-profile-page.component';
+import { TaskItemComponent } from './profile-page/task-item/task-item.component';
+import {SearchPipe} from "./shared/services/search.pipe";
 
 
 @NgModule({
@@ -37,7 +49,13 @@ import { MatMenuModule } from '@angular/material/menu';
     SignupPageComponent,
     CreatePageComponent,
     EditTaskModalComponent,
-    DeleteTaskModalComponent
+    DeleteTaskModalComponent,
+    EditCommentModalComponent,
+    DeleteCommentModalComponent,
+    CommentTaskComponent,
+    EditProfilePageComponent,
+    TaskItemComponent,
+    SearchPipe
   ],
   imports: [
     CommonModule,
@@ -47,7 +65,8 @@ import { MatMenuModule } from '@angular/material/menu';
           { path: 'login', component: LoginPageComponent },
           { path: 'signup', component: SignupPageComponent},
           { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard] },
-          { path: 'profile', component: CreatePageComponent, canActivate: [AuthGuard] }
+          { path: 'profile', component: CreatePageComponent, canActivate: [AuthGuard] },
+          { path: 'edit-profile', component: EditProfilePageComponent, canActivate: [AuthGuard]}
         ]}
     ]),
     FormsModule,
@@ -64,12 +83,21 @@ import { MatMenuModule } from '@angular/material/menu';
     MatDatepickerModule,
     MatNativeDateModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
+    MatBadgeModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatRadioModule
 
   ],
   exports: [RouterModule, TranslateModule],
   providers: [AuthService, AuthGuard, TaskService,
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
+      multi: true
+    },
   ],
   entryComponents: [
     EditTaskModalComponent,

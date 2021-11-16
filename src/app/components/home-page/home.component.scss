@@ -1,0 +1,23 @@
+.main-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 93%;
+  background: url(../../../assets/img/todo.jpeg) no-repeat center center fixed;
+  background-size: cover;
+  opacity: 1;
+}
+
+.main-description {
+  width: 50%;
+}
+
+.main-img {
+  width: 50%;
+}
+
+.back {
+  width: 100%;
+  //width: 600px;
+  //height: 600px;
+}

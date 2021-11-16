@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Observable } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
 import {AuthService} from "./auth.service";
+import {FirebaseService} from "./firebase.service";
 
 
 @Injectable({providedIn: 'root'})
@@ -11,6 +12,7 @@ export class AuthGuard implements CanActivate {
         private router: Router,
         private localStorageService: LocalStorageService,
         private auth: AuthService,
+        private fire: FirebaseService
     ) { }
 
     public canActivate(
@@ -20,7 +22,7 @@ export class AuthGuard implements CanActivate {
       if (this.localStorageService.get('uid')) {
         return true;
       } else {
-        this.auth.logout()
+        this.fire.logout()
         this.router.navigate(['/admin', 'login']);
         return false;
       }

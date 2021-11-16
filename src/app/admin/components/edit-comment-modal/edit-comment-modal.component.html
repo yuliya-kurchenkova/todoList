@@ -1,0 +1,12 @@
+<form  class="example-form" [formGroup]="formEditComment">
+  <div mat-dialog-actions>
+  <h2>Edit comment</h2>
+    <button class="btn-close" mat-stroked-button mat-dialog-close (click)="close()">x</button>
+  </div>
+   <mat-form-field class="example-form-field" appearance="fill">
+      <mat-label>Title</mat-label>
+<!--       ([ngModel])="comment.title" -->
+      <input matInput placeholder="title" formControlName="newComment"/>
+    </mat-form-field>
+      <button mat-stroked-button color="accent" [disabled]="formEditComment.invalid" type="submit" (click)="editComment()">Refresh</button>
+    </form>

@@ -107,9 +107,7 @@ export class SignupPageComponent implements OnInit {
                this.localStorageService.set('uid', JSON.stringify(res.user?.uid));
                this.registrationForm.reset();
                this.submitted = false;
-               this.router.navigate(['/admin', 'profile'], {
-                 queryParams: { id: this.currentUserId }
-               });
+               this.router.navigate(['/admin', 'profile']);
              })
                .catch(err => {
                  this.fireAuth.changeIsSignedIn(false);
@@ -118,11 +116,11 @@ export class SignupPageComponent implements OnInit {
                  this.registrationForm.reset();
                });
            }, err => {
-             this.err = err.message;
-             this.isLoader = false;
+             console.log('here');
            })
       })
       .catch( err => {
+        console.dir(err)
         this.isLoader = false;
         this.err = err.message;
       });

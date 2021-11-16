@@ -1,24 +1,31 @@
 <nav class="nav">
   <div>
     <a class="title-name" routerLink="/">
-      <img class="ava" src="../../../assets/img/logo.png" alt="Logo">
+      <img class="ava" src="../../../assets/img/to-do-icon.jpg" alt="Logo">
     </a>
   </div>
   <ul>
-    <li
-      class="nav-item"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact: true}"
-    >
-      <a routerLink="/">Home</a>
+<!--     <li -->
+<!--       class="nav-item" -->
+<!--       routerLinkActive="active" -->
+<!--       [routerLinkActiveOptions]="{exact: true}" -->
+<!--     > -->
+<!--       <a routerLink="/">Home</a> -->
+<!--     </li> -->
+<!--     <li -->
+<!--       class="nav-item" -->
+<!--       routerLinkActive="active" -->
+<!--       [routerLinkActiveOptions]="{exact: true}" -->
+<!--     > -->
+<!--       <a routerLink="/admin/profile">Create</a> -->
+<!--     </li> -->
+
+    <li *ngIf="isSignIn">
+       <a class="title-name" routerLink="/admin/edit-profile">
+         <img class="ava" src="../../../assets/img/smile.png" alt="Photo user">
+       </a>
     </li>
-    <li
-      class="nav-item"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact: true}"
-    >
-      <a routerLink="/admin/profile">Create</a>
-    </li>
+
     <li *ngIf="!isSignIn">
       <button mat-raised-button color="accent" (click)="login()">{{ "buttons.login"  | translate }}</button>
     </li>
@@ -26,10 +33,10 @@
       <button mat-raised-button translate (click)="logoutBtn()">{{ "buttons.logout" | translate }}</button>
     </li>
     <li>
-      <button mat-raised-button translate (click)="changeLanguage()">{{ "buttons.language" | translate }}</button>
+      <button mat-raised-button translate (click)="changeLanguage()">{{ language }}</button>
     </li>
   </ul>
 </nav>
 
-
+<router-outlet></router-outlet>
 

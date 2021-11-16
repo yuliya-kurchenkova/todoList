@@ -12,7 +12,7 @@ import { MainLayoutComponent } from './shared/components/main-layout/main-layout
 import { HeaderComponent } from './components/header/header.component';
 
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { FirebaseService } from './admin/shared/services/firebase.service';
 import { ToastrModule } from 'ngx-toastr';
+import { HttpErrorInterceptorService } from "./shared/httperor-interceptor.service";
 
 
 @NgModule({
@@ -56,7 +57,13 @@ import { ToastrModule } from 'ngx-toastr';
       preventDuplicates: true
     })
   ],
-  providers: [FirebaseService],
+  providers: [FirebaseService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptorService,
+      multi: true
+    },
+  ],
   exports: [ToastrModule],
   bootstrap: [AppComponent]
 })

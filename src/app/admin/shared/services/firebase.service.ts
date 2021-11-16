@@ -38,11 +38,15 @@ export class FirebaseService {
     return this.fireAuth.createUserWithEmailAndPassword(user.email, user.password);
   };
 
+  public addTask(myTask: MyTask, uid: string,): Observable<any> {
+    return this.http.post(`${baseURL}tasks/${uid}.json`, myTask);
+  }
+
   public remove(task: Task, uid: string): Observable<any> {
     return this.http.delete(`${baseURL}tasks/${uid}/${task.id}.json`);
   };
 
-  public getTask(task: Task, uid: string): Observable<any> {
+  public getTask(task: any, uid: string): Observable<any> {
     return this.http.get(`${baseURL}tasks/${uid}.json`);
   };
 

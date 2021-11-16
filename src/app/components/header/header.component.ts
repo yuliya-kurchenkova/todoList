@@ -39,11 +39,12 @@ export class HeaderComponent implements OnInit {
   };
 
   public changeLanguage(): void {
-    this.language === 'en' ? this.language = 'ru' : this.language = 'en';
+    this.language = this.language === 'en' ?  'ru' : 'en';
     this.translate.use(this.language);
   };
 
   public logoutBtn(): void {
+    console.log('logout')
     this.fireAuth.logout();
     this.router.navigate(['/admin', 'login']);
   };

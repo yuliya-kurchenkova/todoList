@@ -79,15 +79,14 @@ export class LoginPageComponent implements OnInit {
         this.submitted = false;
         this.isLoader = false;
         this.router.navigate(['/admin', 'profile'], {
-        queryParams: { id: this.userId }
-        });
+        queryParams: { id: this.userId }});
       })
-      .catch(err => {
-        this.fireAuth.changeIsSignedIn(false);
-        this.isLoader = false;
-        this.err = err.message;
-        this.profileForm.reset();
-      });
+      // .catch(err => {
+      //   this.fireAuth.changeIsSignedIn(false);
+      //   this.isLoader = false;
+      //   this.err = err.message;
+      //   this.profileForm.reset();
+      // });
   };
 
   public add(): void {

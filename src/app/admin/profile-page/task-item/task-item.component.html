@@ -1,0 +1,61 @@
+<div class="card-container">
+  <div class="card-task">
+    <div class="card-wrapper">
+      <div>
+        <div class="card-task_title">{{task.title}}</div>
+        <div class="card-task_text">{{task.description}}</div>
+        <div class="card-task_text"><span>Deadline: </span>{{task.date}}</div>
+      </div>
+      <div class="status-text">{{task.status}}</div>
+      <div>
+        <button class="btn-options" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="editTask()">
+          <i class="material-icons">create</i>
+          <span>Edit task</span>
+        </button>
+        <button mat-menu-item (click)="delTask()">
+          <i class="material-icons">delete</i>
+          <span>Delete task</span>
+        </button>
+        <button mat-menu-item *ngIf="!showComments" (click)="showComments = true">
+          <i class="material-icons">comment</i>
+          <span>Show comment</span>
+        </button>
+        <button mat-menu-item *ngIf="showComments" (click)="showComments = false">
+          <i class="material-icons">comment</i>
+          <span>Close comment</span>
+        </button>
+      </mat-menu>
+    </div>
+    <div *ngIf="showComments">
+    <p *ngIf="!comments.length; else showCommentsTitle">No comments</p>
+    </div>
+    <ng-template #showCommentsTitle class="card-task_box">
+    <div>
+       <app-comment-task *ngFor="let comment of comments" [comment]="comment" (onEdit)="openCommentDialogEdit($event)" (onDelete)="removeComment($event)"></app-comment-task>
+    </div>
+    </ng-template>
+    <div>
+      <div class="box-comment" [formGroup]="formAddComment">
+        <div class="comment-form">
+          <div class="comment-input">
+            <mat-form-field class="comment-form-field" appearance="fill">
+              <mat-label>New comment</mat-label>
+              <input matInput type="text" formControlName="newComment">
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-stroked-button class="btn-add" color="accent" (click)="addComment(task)">
+              <span class="material-icons">add_task</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
