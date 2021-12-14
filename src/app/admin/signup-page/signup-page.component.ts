@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService} from '@ngx-translate/core';
-
+import { TranslateService } from '@ngx-translate/core';
 import { FirebaseService } from '../shared/services/firebase.service';
 import { User, UserData } from '../../shared/interfaces/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { regs } from '../../shared/constants/regs';
 import { LocalStorageService } from '../shared/services/local-storage.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -36,7 +36,8 @@ export class SignupPageComponent implements OnInit {
     private translate: TranslateService,
     private fireAuth: FirebaseService,
     private http: HttpClient,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private toastrService: ToastrService
   ) {
     translate.setDefaultLang('en');
   }
@@ -49,24 +50,32 @@ export class SignupPageComponent implements OnInit {
       ]),
       password: new FormControl(null, [
         Validators.required,
-        Validators.minLength(6)
+        Validators.pattern(regs.PASSWORD)
       ]),
       firstName: new FormControl(null, [
-        Validators.required
+        Validators.required,
+        Validators.minLength(2)
       ]),
       lastName: new FormControl(null, [
-        Validators.required
+        Validators.required,
+        Validators.minLength(2)
       ])
     });
+    const user: User = {
+      email: this.registrationForm.value.email,
+      password: this.registrationForm.value.password,
+      firstName: this.registrationForm.value.firstName,
+      lastName: this.registrationForm.value.lastName
+    };
   }
 
   public get email() {
     return this.registrationForm.get('email');
-  }
+  };
 
   public get password() {
     return this.registrationForm.get('password');
-  }
+  };
 
   public submit(): void {
     if (this.registrationForm.invalid) {
@@ -79,7 +88,8 @@ export class SignupPageComponent implements OnInit {
       email: this.registrationForm.value.email,
       password: this.registrationForm.value.password,
       firstName: this.registrationForm.value.firstName,
-      lastName: this.registrationForm.value.lastName
+      lastName: this.registrationForm.value.lastName,
+      birthday: this.registrationForm.value.birthday
     };
 
     this.fireAuth.signUp(user)
@@ -88,11 +98,14 @@ export class SignupPageComponent implements OnInit {
         this.newUser = res.user;
         this.currentUserId = this.newUser.uid;
         this.displayName = this.newUser.firstName + ' ' + this.newUser.lastName;
-
         const userData: UserData = {
           uid: this.currentUserId,
           email: user.email,
-          displayName: user.firstName + ' ' + user.lastName
+          displayName: user.firstName + ' ' + user.lastName,
+          birthday: user.birthday,
+          about: user.about,
+          gender: user.gender,
+          address: user.address
         }
 
          this.http
@@ -111,19 +124,27 @@ export class SignupPageComponent implements OnInit {
              })
                .catch(err => {
                  this.fireAuth.changeIsSignedIn(false);
+                 this.registrationForm.reset();
                  this.isLoader = false;
                  this.err = err.message;
-                 this.registrationForm.reset();
+                 this.showErrorMessage(this.err)
                });
-           }, err => {
-             console.log('here');
+           }, () => {
+             this.isLoader = false;
+             this.registrationForm.reset();
            })
       })
       .catch( err => {
-        console.dir(err)
+        this.registrationForm.reset();
         this.isLoader = false;
         this.err = err.message;
+        this.showErrorMessage(this.err)
       });
   };
 
+  public showErrorMessage(error: any): void {
+    this.toastrService.error(`${error}`);
+  };
+
 }
+

@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
       this.isSignIn = value;
     })
     this.isSignIn = !!this.localStorageService.get('uid');
+
   };
 
   public login(): void {
@@ -44,8 +45,8 @@ export class HeaderComponent implements OnInit {
   };
 
   public logoutBtn(): void {
-    console.log('logout')
     this.fireAuth.logout();
+    this.isSignIn = false
     this.router.navigate(['/admin', 'login']);
   };
 }

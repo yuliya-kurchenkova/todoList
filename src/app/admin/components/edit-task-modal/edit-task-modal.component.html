@@ -1,48 +1,34 @@
 <form (ngSubmit)="submit(form)" class="example-form" [formGroup]="form">
-  <div mat-dialog-actions>
-  <h2>Edit task</h2>
-    <button class="btn-close" mat-stroked-button mat-dialog-close (click)="close()">x</button>
-  </div>
-    <div class="card-checkbox">
-    <mat-radio-group
-      formControlName="status"
-      aria-labelledby="example-radio-group-label"
-      class="example-radio-group">
-      <mat-radio-button class="example-radio-button" value="new">
-          new
-      </mat-radio-button>
-      <mat-radio-button class="example-radio-button" value="inProcess">
-            In process
-      </mat-radio-button>
-      <mat-radio-button class="example-radio-button" value="completed">
-         Completed
-      </mat-radio-button>
-    </mat-radio-group>
-<!--     <div>Your favorite season is: {{favoriteSeason}}</div> -->
-<!--     <section class="example-section"> -->
-<!--         <mat-checkbox class="example-margin">New</mat-checkbox> -->
-<!--         <mat-checkbox class="example-margin">In process</mat-checkbox> -->
-<!--         <mat-checkbox class="example-margin">Completed</mat-checkbox> -->
-<!--       </section> -->
+  <div>
+    <div mat-dialog-actions class="wrapper-modal">
+      <div class="modal-title">{{"titles.formEditTask" | translate }}</div>
+      <div>
+         <button class="btn-close" mat-stroked-button mat-dialog-close (click)="close()">x</button>
+      </div>
     </div>
-
-  <mat-form-field class="example-form-field" appearance="fill">
-    <mat-label>Title</mat-label>
-    <input matInput placeholder="title" ([ngModel])="myTask.title" formControlName="title"/>
-  </mat-form-field>
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Description</mat-label>
-    <input matInput placeholder="description" ([ngModel])="myTask.description" formControlName="description"/>
-    <mat-hint align="start"></mat-hint>
-    <mat-hint align="end">/256</mat-hint>
-  </mat-form-field>
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" ([ngModel])="myTask.description" formControlName="date"/>
-    <mat-datepicker-toggle matSuffix [for]="picker">
-      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-    </mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <button mat-stroked-button color="accent" [disabled]="form.invalid" type="submit">Refresh</button>
+    <div class="card-checkbox">
+      <mat-radio-group formControlName="status" aria-labelledby="example-radio-group-label" class="example-radio-group">
+        <mat-radio-button class="example-radio-button" value="new">{{"buttons.new" | translate }}</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="inProcess">{{"buttons.inProcess" | translate }}</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="completed">{{"buttons.completed" | translate }}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <mat-form-field class="example-form-field" appearance="fill">
+      <mat-label>{{"labels.title" | translate }}</mat-label>
+      <input matInput placeholder="{{'labels.title' | translate }}" maxlength="35" ([ngModel])="myTask.title" formControlName="title" autocomplete="off"/>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>{{"labels.description" | translate }}</mat-label>
+      <input matInput placeholder="{{'labels.description' | translate }}" ([ngModel])="myTask.description" formControlName="description" autocomplete="off"/>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>{{"labels.deadline" | translate }}</mat-label>
+      <input matInput [matDatepicker]="picker" ([ngModel])="myTask.date" formControlName="date" autocomplete="off"/>
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-stroked-button color="accent" [disabled]="form.invalid" type="submit">{{"buttons.refresh" | translate }}</button>
+  </div>
 </form>

@@ -1,20 +1,16 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-delete-comment-modal',
   templateUrl: './delete-comment-modal.component.html',
   styleUrls: ['./delete-comment-modal.component.scss']
 })
-export class DeleteCommentModalComponent implements OnInit {
+export class DeleteCommentModalComponent {
 
   constructor(
-    public dialogRef: MatDialogRef<DeleteCommentModalComponent>,
-  //   @Inject(MAT_DIALOG_DATA) public data: any)
+    public dialogRef: MatDialogRef<DeleteCommentModalComponent>
   ) { }
-
-  ngOnInit(): void {
-  }
 
   public close(): void {
     this.dialogRef.close(true);

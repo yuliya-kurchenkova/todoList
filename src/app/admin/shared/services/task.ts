@@ -10,5 +10,6 @@ export class MyTask {
 
 export class MyComment {
   newComment!: string;
-  id?: string
+  id?: string;
+  dateAddComment: string | any;
 }

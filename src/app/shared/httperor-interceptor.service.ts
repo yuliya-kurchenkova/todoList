@@ -3,39 +3,22 @@ import {
   HttpHandler,
   HttpRequest,
   HttpErrorResponse,
-  HttpInterceptor, HttpResponse
+  HttpInterceptor
 } from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
-import {catchError, retry, tap} from "rxjs/operators";
-import {Injectable} from "@angular/core";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { Injectable } from "@angular/core";
+import { FirebaseService } from "../admin/shared/services/firebase.service";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable()
-// export class HttpErrorInterceptorService implements HttpInterceptor {
-//
-//   constructor() {
-//   }
-//
-//   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-//     const auth = request.clone({
-//       headers: request.headers.set('iskraAuth', '123456')
-//     });
-//     return next.handle(auth)
-//       .pipe(
-//         tap((event) => {
-//           if (event instanceof HttpResponse) {
-//             console.log('This is request');
-//           }
-//         }, (err) => {
-//           if (err instanceof HttpErrorResponse) {
-//             console.log('This is Error');
-//           }
-//         })
-//       )
-//   }
-// }
-
 export class HttpErrorInterceptorService implements HttpInterceptor {
-  constructor() {}
+  public error: any;
+
+  constructor(
+    private firebase: FirebaseService,
+    private toastrService: ToastrService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -43,12 +26,13 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        const errMsg = 'Hi';
-        console.log(error);
-        console.log(errMsg);
-
+        this.showErrorMessage(error.message)
         return throwError(error)
     })
     )
   }
+
+  public showErrorMessage(error: any): void {
+    this.toastrService.error(`${error}`);
+  };
 }

@@ -1,27 +1,13 @@
 <div class="card-comment">
-  <div class="card-comment_title">{{comment.newComment}}</div>
-<!--   <div> -->
-<!--     <button class="btn-options" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"> -->
-<!--       <mat-icon>more_vert</mat-icon> -->
-<!--     </button> -->
-<!--   </div> -->
-   <div class="todo-controls-box" appToolTipSingleton (click)="$event.stopPropagation()">
-          <div class="todo-control-button" appToolTip="Edit Todo" (click)="editComment()">
-              <i class="material-icons">edit</i>
-          </div>
-
-          <div class="todo-control-button is-danger" appToolTip="Delete Todo" (click)="deleteComment()">
-              <i class="material-icons">delete</i>
-          </div>
-      </div>
-<!--   <mat-menu #menu="matMenu"> -->
-<!--     <button mat-menu-item (click)="editComment()"> -->
-<!--       <i class="material-icons">create</i> -->
-<!--       <span>Edit comment</span> -->
-<!--     </button> -->
-<!--     <button mat-menu-item (click)="deleteComment()"> -->
-<!--       <i class="material-icons">delete</i> -->
-<!--       <span>Delete comment</span> -->
-<!--     </button> -->
-<!--   </mat-menu> -->
+  <div class="card-comment_title">{{comment.newComment}}
+    <div class="card-comment_date"> ( {{comment.dateAddComment}} ) </div>
+  </div>
+  <div class="todo-controls-box" appToolTipSingleton (click)="$event.stopPropagation()">
+    <div class="todo-control-button" appToolTip="Edit Todo" (click)="editComment()">
+      <i class="material-icons">edit</i>
+    </div>
+    <div class="todo-control-button is-danger" appToolTip="Delete Todo" (click)="deleteComment()">
+      <i class="material-icons">delete</i>
+    </div>
+  </div>
 </div>

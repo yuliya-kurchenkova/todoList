@@ -1,15 +1,43 @@
-.subject {
-  margin: 20px 0 44px 0;
-}
-
-h1 {
-  color: white;
-  font-size: 20px;
-}
-
 .container {
-  margin: 0 38px 44px 67px;
-  max-width: 500px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 50px 38px 44px 67px;
+}
+
+.profile {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-subject {
+  margin: 0 10px 20px 0;
+  width: 500px;
+  color: white;
+  font-size: 15px;
+
+  &_title {
+    display: flex;
+  }
+}
+
+.profile-icon {
+  color: white;
+  cursor: pointer;
+}
+h1 {
+  margin-right: 10px;
+  color: white;
+  font-size: 25px;
+}
+
+i {
+  cursor: pointer;
+}
+
+span {
+  color: #29f999;
+  font-weight: 500;
 }
 
 .btn-container{
@@ -20,6 +48,7 @@ h1 {
 
 .btn-container button {
   margin-left: 20px;
+  color: white;
 }
 
 .example-form {
@@ -32,74 +61,18 @@ h1 {
   width: 100%;
 }
 
-//.card-task {
-//  width: 550px;
-//  margin: 20px 0 15px 20px;
-//  background: #938c8c;
-//  box-shadow: 6px 5px 8px 8px;
-//  border-radius: 11px;
-//  padding-bottom: 17px;
-//
-//  &_title {
-//    color: white;
-//    font-size: 30px;
-//    padding: 20px 0 10px 20px;
-//  }
-//
-//  &_text {
-//    color: white;
-//    font-size: 15px;
-//    padding: 5px 0 10px 20px;
-//  }
-//}
-
-//.card-wrapper {
-//  display: flex;
-//  justify-content: space-between;
-//}
-
-//.card-task span {
-//  color: #29f999;
-//  font-weight: 500;
-//}
-
-//.card-container {
-//  display: flex;
-//  flex-direction: row;
-//  flex-wrap: wrap;
-//  justify-content: center;
-//  align-items: flex-start;
-//}
-
-//in
+.task-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
 .actBtn {
   background-color: #29f999;
 }
 
 .invisible{
-  display:none;
+  display: none;
 }
 
-//.box-comment {
-//  width: 100%;
-//  //border: 1px solid white;
-//}
 
-//.comment-form {
-//  display: flex;
-//  align-items: flex-start;
-//  justify-content: space-around;
-//}
-
-//.comment-form-field {
-//  width: 100%;
-//}
-
-//.btn-add {
-//  height: 52px !important;
-//}
-//
-//.comment-input {
-//  width: 76%;
-//}

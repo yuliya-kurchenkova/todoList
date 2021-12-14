@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from "@angular/core";
-import {Task} from "../../../shared/interfaces/interfaces";
+import {Pipe, PipeTransform} from '@angular/core';
+import { Task } from '../../../shared/interfaces/interfaces';
 
 
 @Pipe({
@@ -11,7 +11,8 @@ export class SearchPipe implements PipeTransform{
       if (value === undefined) {
         return tasks;
       }
-      return task.title.includes(value)
-    })
- }
+      return task.title.includes(value);
+    });
+ };
+
 }

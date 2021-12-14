@@ -1,60 +1,62 @@
 <div class="profile-main">
   <div class="container">
-    <div class="subject">
-      <h1>{{displayName}}</h1>
+    <div class="profile">
+      <div class="profile-subject">
+        <div class="profile-subject_title">
+          <h1>{{nameUser}}</h1>
+          <i class="material-icons" (click)="openEditProfile()">create</i>
+        </div>
+        <div><span>{{'text.profileEmail' | translate}} </span>{{emailUser}}</div>
+        <div *ngIf="genderUser"><span>{{'text.profileGender' | translate}} </span>{{genderUser}}</div>
+        <div *ngIf="addressUser"><span>{{'text.profileAddress' | translate}} </span>{{addressUser}}</div>
+        <div *ngIf="phoneNumber"><span>{{'text.profilePhone' | translate}} </span>{{phoneNumber}}</div>
+        <div *ngIf="aboutUser"><span>{{'text.profileAbout' | translate}} </span>{{aboutUser}}</div>
+        <div *ngIf="birthday"><span>{{'text.profileBirthday' | translate}} </span>{{birthday | date: "dd.MM.yy"}}</div>
+      </div>
     </div>
     <div class="example-form" [formGroup]="formAddTask">
       <mat-form-field class="example-form-field" appearance="fill">
-        <mat-label>Title</mat-label>
-        <input matInput type="text" [(ngModel)]="value" formControlName="title">
+        <mat-label>{{'labels.title' | translate }}</mat-label>
+        <input matInput type="text" [(ngModel)]="value" maxlength="35" autocomplete="off" formControlName="title">
         <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
       <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Description</mat-label>
-        <input matInput #message maxlength="256" formControlName="description">
-        <mat-hint align="start">Write a new task to complete</mat-hint>
+        <mat-label>{{'labels.description' | translate }}</mat-label>
+        <input matInput #message maxlength="256" formControlName="description" autocomplete="off">
+        <mat-hint align="start">{{'text.descriptionText' | translate }}</mat-hint>
         <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
       </mat-form-field>
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-form-field  class="example-full-width" appearance="fill">
+        <mat-label>{{'labels.deadline' | translate }}</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" autocomplete="off">
         <mat-datepicker-toggle matSuffix [for]="picker">
           <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
         </mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <div class="example-button-row">
-        <button mat-raised-button  [disabled]="formAddTask.invalid " (click)="addTask()">Add</button>
+        <button mat-raised-button  [disabled]="formAddTask.invalid" (click)="addTask()">{{'buttons.add' | translate }}</button>
       </div>
     </div>
   </div>
-<div>
-<div>
-  <button (click)="sortFunc()">Sort</button>
-  <button (click)="sortFunc2()">Sort2</button>
-</div>
-<div class="btn-container">
-  <button mat-stroked-button [style.background-color]="selected == 1 ? '#66E2A6' : '#938C8C'" (click)=" selected == 1? selected = 1 + 1:selected = 1; filterAll()">All</button>
-  <button mat-stroked-button [style.background-color]="selected == 2 ? '#66E2A6' : '#938C8C'" (click)=" selected == 2? selected = 2 + 1:selected = 2; filterNew()">New</button>
-  <button mat-stroked-button [style.background-color]="selected == 3 ? '#66E2A6' : '#938C8C'" (click)=" selected == 3? selected = 3 + 1:selected = 3; filterInProcess()">In process</button>
-  <button mat-stroked-button [style.background-color]="selected == 4 ? '#66E2A6' : '#938C8C'" (click)=" selected == 4? selected = 4 + 1:selected = 4; filterDone()">Completed</button>
-</div>
-
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="fill">
-    <mat-label>Search</mat-label>
-    <input type="text" matInput placeholder="Search task" [(ngModel)]="searchStr" name="search">
-    <mat-icon matSuffix>content_paste_search</mat-icon>
-  </mat-form-field>
-</form>
-
-
-<app-task-item  *ngFor="let t of tasks" [task]="t" (onDel)="removeTask($event)" (onEdit)="openDialog($event)"></app-task-item>
+  <div>
+    <div class="btn-container">
+      <button mat-stroked-button [style.background-color]="selected == 1 ? '#66E2A6' : '#272A31'" (click)=" selected = 1; filterAll()">{{'buttons.all' | translate }}</button>
+      <button mat-stroked-button [style.background-color]="selected == 2 ? '#66E2A6' : '#272A31'" (click)=" selected = 2; filterNew()">{{'buttons.new' | translate }}</button>
+      <button mat-stroked-button [style.background-color]="selected == 3 ? '#66E2A6' : '#272A31'" (click)=" selected = 3; filterInProcess()">{{'buttons.inProcess' | translate }}</button>
+      <button mat-stroked-button [style.background-color]="selected == 4 ? '#66E2A6' : '#272A31'" (click)=" selected = 4; filterDone()">{{'buttons.completed' | translate }}</button>
+      <button mat-button [matMenuTriggerFor]="menu" color="accent">{{'buttons.sort' | translate }}</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item  (click)="sortFuncNew()">{{'buttons.newFirst' | translate }}</button>
+        <button mat-menu-item  (click)="sortFuncOld()">{{'buttons.oldFirst' | translate }}</button>
+      </mat-menu>
+    </div>
+    <div class="task-item">
+      <app-task-item  *ngFor="let t of tasks" [task]="t" (onDel)="removeTask($event)" (onEdit)="openDialog($event)"></app-task-item>
+    </div>
+  </div>
 </div>
 <router-outlet></router-outlet>
 
-<!-- //*ngFor="let comment of comments" [comment]="comment" -->
-<!-- .sort(sortFunc) -->
-<!-- | search: searchStr -->

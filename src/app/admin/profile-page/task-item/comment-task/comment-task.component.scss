@@ -3,32 +3,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 76%;
-  border-bottom: 1px solid white;
+  width: 75%;
+  border-bottom: 1px solid #8ccf97;;
   margin-left: 19px;
 
   &_title {
+    display: flex;
     color: white;
+    font-size: 17px;
+  }
+
+  &_date {
+    font-size: 12px;
+    margin-left: 5px;
   }
 }
 
-i {
-  position: relative;
-  top: 6px;
-  right: 7px;
-}
 .todo-item {
   display: flex;
   align-items: center;
-
   position: relative;
-
   cursor: pointer;
-
   font-size: 18px;
-
   padding: 35px 15px;
-
   border-bottom: 1px solid #f2f3f5;
 
   &.completed {
@@ -38,28 +35,19 @@ i {
 
 .todo-item .check-box {
   display: flex;
-
   flex-shrink: 0;
-
   border: 2px solid #eee;
   border-radius: 50%;
-
   margin-right: 20px;
-
   height: 28px;
   width: 28px;
-
   transition: background-color 0.2s, border-color 0.2s;
 
   i.material-icons {
     font-size: 20px;
     margin: auto;
-
     color: #333;
-
-    // hide by default
     opacity: 0;
-
     transition: opacity 0.2s;
   }
 }
@@ -67,30 +55,24 @@ i {
 .card-comment .todo-controls-box {
   position: relative;
   bottom: 4px;
-  left: 20px;
-
+  left: 5px;
   display: flex;
-
-  // hide by default
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(2px);
-
-  transition: opacity 0.2s, visibility 0.9s, transform 0.9s;
 }
 
 .card-comment:hover .todo-controls-box {
   opacity: 1;
   visibility: visible;
   transition-delay: 0.4s;
-
   transform: translateY(0);
 }
 
 .todo-controls-box .todo-control-button {
   display: flex;
-
-  padding: 7px 10px;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin-top: 10px;
 
   i.material-icons {
     color: #555;
@@ -116,4 +98,8 @@ i {
   &:last-of-type {
     border-top-right-radius: 7px;
   }
+}
+
+.todo-control-button:active {
+  transform: scale(0.8);
 }

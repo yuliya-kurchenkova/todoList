@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import { User, Task, Comment } from '../../shared/interfaces/interfaces';
+import { User, Task } from '../../shared/interfaces/interfaces';
 import { AuthService } from '../shared/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
@@ -8,11 +8,10 @@ import { FirebaseService } from '../shared/services/firebase.service';
 import { EditTaskModalComponent } from '../components/edit-task-modal/edit-task-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteTaskModalComponent } from '../components/delete-task-modal/delete-task-modal.component';
-import {MyComment, MyTask} from '../shared/services/task';
-import { ToastrService } from 'ngx-toastr';
+import { MyTask } from '../shared/services/task';
 import { baseURL } from '../../../environments/environment';
-
-
+import { EditProfileModalComponent } from '../components/edit-profile-modal/edit-profile-modal.component';
+import { FbCommentsService } from '../shared/services/fbComments.service';
 
 
 @Component({
@@ -23,35 +22,30 @@ import { baseURL } from '../../../environments/environment';
 })
 export class ProfilePageComponent implements OnInit {
   public user!: User;
+  public users: User[] = [];
+
   public profile!: any;
   public displayName: any;
   public error: string = '';
   public value: string = '';
   public formAddTask!: FormGroup;
   public tasks: Task[] = [];
-  public comments: Comment[] = [];
   public status: string = 'new'
-  public key!: string
   public myTask = new MyTask()
   public t: any;
   public selected: number = 1;
   public currentTask: any;
-  visibility: boolean = true;
-  public newTasks: any;
-  public inProcessTasks: any;
-  public doneTasks: any;
-  // public comments: string = 'No comments'
-  public formAddComment!: FormGroup;
-  // public taskComment: any[] = [];
-  // public idTask!: string;
-  public idTask!: unknown[];
-  // public showComments: boolean = false
-  // private textComment: any;
-  // private commentValue: any;
-  public searchStr: string | any
-  now = new Date();
-// a: any
-//   b: any
+  public uidCurrent: any;
+  public nameUser: any;
+  public data: any;
+  public emailUser: any;
+  public result: any;
+  public localId: string | any;
+  public addressUser: any;
+  public aboutUser: any;
+  public birthday: any;
+  public genderUser: any;
+  public phoneNumber: any;
 
 
   constructor(
@@ -59,24 +53,15 @@ export class ProfilePageComponent implements OnInit {
     private route: ActivatedRoute,
     private fireStore: FirebaseService,
     private dialog: MatDialog,
-    // private fbComment: FbCommentsService
-    // private toastrService: ToastrService
+    private fbComment: FbCommentsService
   ) { }
 
 
   public ngOnInit(): void {
     if(localStorage.getItem('uid')) {
-      let uidCurrent = JSON.parse(localStorage.uid)
-      console.log(uidCurrent)
-      this.http
-        .get<MyTask[]>(`${baseURL}users/${uidCurrent}.json`)
-        .subscribe((data: any) => {
-          let localId = Object.keys(data)[0];
-          this.profile = data[`${localId}`];
-          this.displayName = this.profile.displayName;
-        });
+      this.uidCurrent = JSON.parse(localStorage.uid)
+      this.getUser();
       this.getTask();
-      // this.getComment()
       this.status = 'new';
     }
 
@@ -86,77 +71,72 @@ export class ProfilePageComponent implements OnInit {
       date: new FormControl('', [Validators.required]),
       status: new FormControl('new'),
     });
-    console.log(this.formAddTask.value)
-
-    // this.formAddComment = new FormGroup({
-    //   newComment: new FormControl(null, [Validators.required])
-    // })
-    // console.log(this.formAddComment)
   }
 
 
-  sortFunc () {
-  this.tasks.sort((a: Task, b: Task) => {
-    console.log('ssssss', this.tasks)
-    let dateSplitA = a.dateAdd.split(".")
-    let dateSplitB = b.dateAdd.split(".")
-    // console.log(dateSplit)
-    let dateTimeStampA = new Date(+dateSplitA[2], +dateSplitA[1] - 1, +dateSplitA[0]).getTime()
-    let dateTimeStampB = new Date(+dateSplitB[2], +dateSplitB[1] - 1, +dateSplitB[0]).getTime()
-    console.log(dateTimeStampA)
-    console.log(dateTimeStampB)
-    let ss = dateTimeStampA - dateTimeStampB
-    return -ss
-
-  })
-  }
-
-  sortFunc2() {
+  public sortFuncNew () {
     this.tasks.sort((a: Task, b: Task) => {
-      console.log('ssssss', this.tasks)
-      let dateSplitA = a.dateAdd.split(".")
-      let dateSplitB = b.dateAdd.split(".")
-      // console.log(dateSplit)
-      let dateTimeStampA = new Date(+dateSplitA[2], +dateSplitA[1] - 1, +dateSplitA[0]).getTime()
-      let dateTimeStampB = new Date(+dateSplitB[2], +dateSplitB[1] - 1, +dateSplitB[0]).getTime()
-      console.log(dateTimeStampA)
-      console.log(dateTimeStampB)
-      let ss = dateTimeStampB - dateTimeStampA
-      return -ss
+      let dateSplitA = a.dateAdd.split(".");
+      let dateSplitB = b.dateAdd.split(".");
+      let dateTimeStampA = new Date(+dateSplitA[2], +dateSplitA[1] - 1, +dateSplitA[0]).getTime();
+      let dateTimeStampB = new Date(+dateSplitB[2], +dateSplitB[1] - 1, +dateSplitB[0]).getTime();
+      let ss = dateTimeStampA - dateTimeStampB;
+      return -ss;
+    });
+  };
 
-    })
-  }
+  public sortFuncOld() {
+    this.tasks.sort((a: Task, b: Task) => {
+      let dateSplitA = a.dateAdd.split(".");
+      let dateSplitB = b.dateAdd.split(".");
+      let dateTimeStampA = new Date(+dateSplitA[2], +dateSplitA[1] - 1, +dateSplitA[0]).getTime();
+      let dateTimeStampB = new Date(+dateSplitB[2], +dateSplitB[1] - 1, +dateSplitB[0]).getTime();
+      let ss = dateTimeStampB - dateTimeStampA
+      return -ss;
+    });
+  };
+
+  public getUser(): void {
+    this.http
+      .get(`${baseURL}users/${this.uidCurrent}.json`)
+      .subscribe((data: any) => {
+        this.data = data
+        this.localId = Object.keys(data)[0];
+        this.profile = data[`${this.localId}`];
+        this.nameUser = this.profile.displayName;
+        this.emailUser = this.profile.email;
+        this.addressUser = this.profile.address;
+        this.aboutUser = this.profile.about;
+        this.birthday = this.profile.birthday;
+        this.genderUser = this.profile.gender;
+        this.phoneNumber = this.profile.phoneNumber;
+      });
+  };
 
   public getTask(): void {
-    this.http.get<MyTask[]>(`${baseURL}tasks/${( JSON.parse(localStorage.uid))}.json`)
+    this.http.get<any>(`${baseURL}tasks/${( JSON.parse(localStorage.uid))}.json`)
       .subscribe(tasks => {
         for (let key in tasks) {
           let task = tasks[key];
           task.id = key;
-          // this.getComment(task.id)
           this.tasks.push(task);
         }
       });
   };
 
   public addTask(): void {
-    const myTask: MyTask = {
+    const task: Task = {
       id: this.formAddTask.value.id,
       title: this.formAddTask.value.title,
       description: this.formAddTask.value.description,
-      date: this.formAddTask.value.date.toLocaleDateString(),
-      status: this.formAddTask.value.status,
+      date: this.formAddTask.value.date,
+      status: this.formAddTask.value.status = "new",
       newComment: this.formAddTask.value.newComment,
       dateAdd: new Date().toLocaleDateString()
     };
-    console.log(myTask.dateAdd)
-    this.fireStore.addTask(myTask, ( JSON.parse(localStorage.uid)))
-      .subscribe(res => {
-        console.log(res)
-        // let idTask = Object.values(res)
-        // console.log(idTask)
-        this.tasks.push(myTask);
-        // console.log(myTask)
+    this.fireStore.addNewTask(task, ( JSON.parse(localStorage.uid)))
+      .subscribe( e => {
+        this.tasks.push(e);
         this.formAddTask.reset();
       }, err => {
         this.error = err.message;
@@ -168,11 +148,14 @@ export class ProfilePageComponent implements OnInit {
       width: '500px',
       data: myTask
     });
+    this.currentTask = myTask;
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
        this.fireStore.remove(myTask,  JSON.parse(localStorage.uid))
         .subscribe(() => {
-          this.tasks = this.tasks.filter(t => t.id !== myTask.id);
+          this.fbComment.delFbComment('',  (JSON.parse(localStorage.uid)), this.currentTask.id).subscribe(() => {
+            this.tasks = this.tasks.filter(t => t.id !== myTask.id);
+          })
         }, err => {
           this.error = err.message;
         });
@@ -180,34 +163,55 @@ export class ProfilePageComponent implements OnInit {
     });
   };
 
-  public openDialog(myTask: MyTask): void {
+  public openDialog(task: Task): void {
     let dialogRef = this.dialog.open(EditTaskModalComponent, {
       width: '500px',
-      data: myTask
+      data: task
     });
-    console.log(myTask)
-    this.currentTask = myTask;
+    this.currentTask = task;
     dialogRef.afterClosed()
       .subscribe((result) => {
-        console.log(result)
         if (result) {
-          this.tasks = [];
-          this.getTask();
+          this.fireStore.updateTask(result, (JSON.parse(localStorage.uid)), result.id)
+            .subscribe(e => {
+              this.tasks = [];
+              if(this.selected === 1) {
+                this.filterAll()
+              } else if(this.selected === 2) {
+                this.filterNew()
+              } else if(this.selected === 3) {
+                this.filterInProcess()
+              } else if(this.selected === 4) {
+                this.filterDone()
+              }
+            }, err => {
+              this.error = err.message;
+            });
         }
       }, err => {
         this.error = err.message;
       });
   };
 
-  // public showSuccessActive(): void {
-  //   this.toastrService.success('Your task has been added to active', 'Success');
-  // }
-
-  // public showSuccessDone(): void {
-  //   this.toastrService.success('Your task is complete', 'Success');
-  // }
-  //
-
+  public openEditProfile(): void {
+    let dialogRef = this.dialog.open(EditProfileModalComponent, {
+      width: '500px',
+      data: this.data
+    });
+    dialogRef.afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.fireStore.editProfile(result, (JSON.parse(localStorage.uid)), this.localId)
+            .subscribe( e => {
+              this.getUser();
+            },err => {
+              this.error = err.message;
+            });
+        }
+      }, err => {
+        this.error = err.message;
+      });
+  };
 
   public filterNew(): void {
     this.fireStore.getTask(this.myTask,  JSON.parse(localStorage.uid))
@@ -224,7 +228,6 @@ export class ProfilePageComponent implements OnInit {
         this.error = err.message;
       });
   };
-
 
   public filterAll(): void {
     this.fireStore.getTask(this.myTask, JSON.parse(localStorage.uid))

@@ -3,25 +3,22 @@
     <h2 class="title">{{"titles.formIn" | translate}}</h2>
     <div class="box" [ngClass]="{invalid: profileForm.controls.email.touched && profileForm.controls.password.invalid}">
       <mat-form-field>
-        <mat-label>{{ "placeholders.email" | translate }}</mat-label>
-        <input matInput type="text" placeholder="{{ 'placeholders.email' | translate }}" formControlName="email">
-        <mat-error class="validation" *ngIf="email && email.invalid && email.touched">{{"errors.email" | translate}}</mat-error>
+        <mat-label>{{"placeholders.email" | translate }}</mat-label>
+        <input matInput type="text" placeholder="{{ 'placeholders.email' | translate }}" autocomplete="off" formControlName="email">
+        <mat-error *ngIf="profileForm.get('email')?.hasError('required')">{{"errors.emailRequired" | translate }}</mat-error>
+        <mat-error *ngIf="profileForm.get('email')?.hasError('pattern')">{{"errors.emailNotCorrect" | translate }}</mat-error>
       </mat-form-field>
     </div>
     <div class="box" [ngClass]="{invalid: profileForm.get('password')?.touched && profileForm.get('password')?.invalid}">
       <mat-form-field>
-        <mat-label>{{ "placeholders.password" | translate }}</mat-label>
-        <input matInput type="password" placeholder="{{'placeholders.password' | translate}}" formControlName="password">
-        <mat-error class="validation" *ngIf="password && password.invalid && password.touched">{{"errors.password" | translate}}</mat-error>
+        <mat-label>{{"placeholders.password" | translate }}</mat-label>
+        <input matInput type="password" placeholder="{{'placeholders.password' | translate}}" autocomplete="off" formControlName="password">
+        <mat-error *ngIf="profileForm.get('password')?.hasError('required')">{{"errors.passwordRequired" | translate}}</mat-error>
+        <mat-error *ngIf="profileForm.get('password')?.hasError('minlength')">{{"errors.passwordMinLength" | translate}}</mat-error>
       </mat-form-field>
     </div>
     <div class="box">
-      <button mat-raised-button color="accent"
-        type="submit"
-        [disabled]="profileForm.invalid || submitted"
-      >
-        {{"buttons.sign-in" | translate}}
-      </button>
+      <button mat-raised-button color="accent" type="submit" [disabled]="profileForm.invalid">{{"buttons.sign-in" | translate}}</button>
       <button mat-raised-button color="accent" (click)="add()">{{"buttons.sign-up" | translate}}</button>
     </div>
   </form>
