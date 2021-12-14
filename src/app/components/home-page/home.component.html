@@ -1,2 +1,18 @@
-<p>home works!</p>
+<div class="main-wrapper">
+  <div class="main-text">
+    <div class="main-text_subtitle">{{"text.textSubtitle" | translate}}</div>
+    <ul class="header-list">{{"text.textListHeader" | translate}}
+      <li class="header-item"><i class="fas fa-check"></i> {{"text.textItemHeaderAddTask" | translate}}</li>
+      <li class="header-item"><i class="fas fa-check"></i> {{"text.textItemHeaderCompletedTask" | translate}}</li>
+      <li class="header-item"> {{"text.textItemHeaderActiveTask" | translate}}<li>
+      <li class="header-item"><i class="fas fa-check"></i> {{"text.textItemHeaderRemoveTask" | translate}}</li>
+      <li class="header-item"><i class="fas fa-check"></i> {{"text.textItemHeaderSwitchTask" | translate}}</li>
+      <li class="header-item"><i class="fas fa-check"></i> {{"text.textItemHeaderAddComments" | translate}}</li>
+      <li class="header-item"><i class="fas fa-check"></i> {{"text.textItemHeaderFirebase" | translate}}</li>
+    </ul>
+  </div>
+  <div class="header-btn">
+    <button mat-stroked-button color="accent" routerLink='/admin/login'>{{"buttons.getStarted" | translate}}</button>
+  </div>
+</div>
 <router-outlet></router-outlet>

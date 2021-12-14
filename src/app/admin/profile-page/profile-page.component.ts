@@ -9,8 +9,9 @@ import { EditTaskModalComponent } from '../components/edit-task-modal/edit-task-
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteTaskModalComponent } from '../components/delete-task-modal/delete-task-modal.component';
 import { MyTask } from '../shared/services/task';
-import { ToastrService } from 'ngx-toastr';
 import { baseURL } from '../../../environments/environment';
+import { EditProfileModalComponent } from '../components/edit-profile-modal/edit-profile-modal.component';
+import { FbCommentsService } from '../shared/services/fbComments.service';
 
 
 @Component({
@@ -21,59 +22,99 @@ import { baseURL } from '../../../environments/environment';
 })
 export class ProfilePageComponent implements OnInit {
   public user!: User;
-  public idUrl!: string;
+  public users: User[] = [];
+
   public profile!: any;
   public displayName: any;
   public error: string = '';
   public value: string = '';
   public formAddTask!: FormGroup;
   public tasks: Task[] = [];
-  public status: string = 'all'
-  public key!: string
+  public status: string = 'new'
   public myTask = new MyTask()
   public t: any;
-  public selected: number | null = null;
+  public selected: number = 1;
+  public currentTask: any;
+  public uidCurrent: any;
+  public nameUser: any;
+  public data: any;
+  public emailUser: any;
+  public result: any;
+  public localId: string | any;
+  public addressUser: any;
+  public aboutUser: any;
+  public birthday: any;
+  public genderUser: any;
+  public phoneNumber: any;
+
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private fireStore: FirebaseService,
     private dialog: MatDialog,
-    private toastrService: ToastrService
+    private fbComment: FbCommentsService
   ) { }
 
 
   public ngOnInit(): void {
-
-    this.route.queryParams.subscribe(url => {
-      this.idUrl = url.id;
-    }, err => {
-      this.error = err.message;
-    })
-
-    this.http
-      .get<MyTask[]>(`${baseURL}users/${this.idUrl}.json`)
-      .subscribe((data: any) => {
-        let localId = Object.keys(data)[0];
-        this.profile = data[`${localId}`];
-        this.displayName = this.profile.displayName;
-      }, err => {
-        this.error = err.message;
-      });
+    if(localStorage.getItem('uid')) {
+      this.uidCurrent = JSON.parse(localStorage.uid)
+      this.getUser();
+      this.getTask();
+      this.status = 'new';
+    }
 
     this.formAddTask = new FormGroup({
       title: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required]),
-      date: new FormControl(null, [Validators.required]),
-      status: new FormControl('all')
+      date: new FormControl('', [Validators.required]),
+      status: new FormControl('new'),
     });
-    this.getTask();
-    this.status = 'all';
   }
 
 
+  public sortFuncNew () {
+    this.tasks.sort((a: Task, b: Task) => {
+      let dateSplitA = a.dateAdd.split(".");
+      let dateSplitB = b.dateAdd.split(".");
+      let dateTimeStampA = new Date(+dateSplitA[2], +dateSplitA[1] - 1, +dateSplitA[0]).getTime();
+      let dateTimeStampB = new Date(+dateSplitB[2], +dateSplitB[1] - 1, +dateSplitB[0]).getTime();
+      let ss = dateTimeStampA - dateTimeStampB;
+      return -ss;
+    });
+  };
+
+  public sortFuncOld() {
+    this.tasks.sort((a: Task, b: Task) => {
+      let dateSplitA = a.dateAdd.split(".");
+      let dateSplitB = b.dateAdd.split(".");
+      let dateTimeStampA = new Date(+dateSplitA[2], +dateSplitA[1] - 1, +dateSplitA[0]).getTime();
+      let dateTimeStampB = new Date(+dateSplitB[2], +dateSplitB[1] - 1, +dateSplitB[0]).getTime();
+      let ss = dateTimeStampB - dateTimeStampA
+      return -ss;
+    });
+  };
+
+  public getUser(): void {
+    this.http
+      .get(`${baseURL}users/${this.uidCurrent}.json`)
+      .subscribe((data: any) => {
+        this.data = data
+        this.localId = Object.keys(data)[0];
+        this.profile = data[`${this.localId}`];
+        this.nameUser = this.profile.displayName;
+        this.emailUser = this.profile.email;
+        this.addressUser = this.profile.address;
+        this.aboutUser = this.profile.about;
+        this.birthday = this.profile.birthday;
+        this.genderUser = this.profile.gender;
+        this.phoneNumber = this.profile.phoneNumber;
+      });
+  };
+
   public getTask(): void {
-    this.http.get<MyTask[]>(`${baseURL}tasks/${(this.idUrl)}.json`)
+    this.http.get<any>(`${baseURL}tasks/${( JSON.parse(localStorage.uid))}.json`)
       .subscribe(tasks => {
         for (let key in tasks) {
           let task = tasks[key];
@@ -84,17 +125,18 @@ export class ProfilePageComponent implements OnInit {
   };
 
   public addTask(): void {
-    const task: MyTask = {
+    const task: Task = {
       id: this.formAddTask.value.id,
       title: this.formAddTask.value.title,
       description: this.formAddTask.value.description,
       date: this.formAddTask.value.date,
-      status: this.formAddTask.value.status
+      status: this.formAddTask.value.status = "new",
+      newComment: this.formAddTask.value.newComment,
+      dateAdd: new Date().toLocaleDateString()
     };
-
-    this.http.post(`${baseURL}tasks/${(this.idUrl)}.json`, task)
-      .subscribe(res => {
-        this.tasks.push(task);
+    this.fireStore.addNewTask(task, ( JSON.parse(localStorage.uid)))
+      .subscribe( e => {
+        this.tasks.push(e);
         this.formAddTask.reset();
       }, err => {
         this.error = err.message;
@@ -106,11 +148,14 @@ export class ProfilePageComponent implements OnInit {
       width: '500px',
       data: myTask
     });
+    this.currentTask = myTask;
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-       this.fireStore.remove(myTask, this.idUrl)
+       this.fireStore.remove(myTask,  JSON.parse(localStorage.uid))
         .subscribe(() => {
-          this.tasks = this.tasks.filter(t => t.id !== myTask.id);
+          this.fbComment.delFbComment('',  (JSON.parse(localStorage.uid)), this.currentTask.id).subscribe(() => {
+            this.tasks = this.tasks.filter(t => t.id !== myTask.id);
+          })
         }, err => {
           this.error = err.message;
         });
@@ -118,60 +163,64 @@ export class ProfilePageComponent implements OnInit {
     });
   };
 
-  public openDialog(myTask: MyTask): void {
+  public openDialog(task: Task): void {
     let dialogRef = this.dialog.open(EditTaskModalComponent, {
       width: '500px',
-      data: myTask
+      data: task
     });
+    this.currentTask = task;
     dialogRef.afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.tasks = [];
-          this.getTask();
+          this.fireStore.updateTask(result, (JSON.parse(localStorage.uid)), result.id)
+            .subscribe(e => {
+              this.tasks = [];
+              if(this.selected === 1) {
+                this.filterAll()
+              } else if(this.selected === 2) {
+                this.filterNew()
+              } else if(this.selected === 3) {
+                this.filterInProcess()
+              } else if(this.selected === 4) {
+                this.filterDone()
+              }
+            }, err => {
+              this.error = err.message;
+            });
         }
       }, err => {
         this.error = err.message;
       });
   };
 
-  public showSuccessActive(): void {
-    this.toastrService.success('Your task has been added to active', 'Success');
-  }
-
-  public showSuccessDone(): void {
-    this.toastrService.success('Your task is complete', 'Success');
-  }
-
-  public statusActive(myTask: MyTask): void  {
-    this.showSuccessActive();
-    this.fireStore.updateActiveStatus(myTask, this.idUrl, myTask.id)
-      .subscribe(data => {
-        this.fireStore.getTask(myTask, this.idUrl).subscribe(e => {
-        }, err => {
-          this.error = err.message;
-        });
+  public openEditProfile(): void {
+    let dialogRef = this.dialog.open(EditProfileModalComponent, {
+      width: '500px',
+      data: this.data
+    });
+    dialogRef.afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.fireStore.editProfile(result, (JSON.parse(localStorage.uid)), this.localId)
+            .subscribe( e => {
+              this.getUser();
+            },err => {
+              this.error = err.message;
+            });
+        }
       }, err => {
         this.error = err.message;
       });
   };
 
-  public statusDone(myTask: MyTask): void {
-    this.showSuccessDone();
-    this.fireStore.updateDoneStatus(myTask, this.idUrl, myTask.id)
-      .subscribe(data => {
-      }, err => {
-        this.error = err.message;
-      });
-  };
-
-  public filterActive(): void {
-    this.fireStore.getTask(this.myTask, this.idUrl)
+  public filterNew(): void {
+    this.fireStore.getTask(this.myTask,  JSON.parse(localStorage.uid))
       .subscribe(tasks => {
         this.tasks = [];
         for (let key in tasks) {
           let task = tasks[key];
           task.id = key;
-          if (task.status === 'active') {
+          if (task.status === 'new') {
             this.tasks.push(task);
           }
         }
@@ -180,9 +229,8 @@ export class ProfilePageComponent implements OnInit {
       });
   };
 
-
   public filterAll(): void {
-    this.fireStore.getTask(this.myTask, this.idUrl)
+    this.fireStore.getTask(this.myTask, JSON.parse(localStorage.uid))
       .subscribe(tasks => {
         this.tasks = [];
         for (let key in tasks) {
@@ -197,14 +245,30 @@ export class ProfilePageComponent implements OnInit {
       });
   };
 
-  public filterDone(): void {
-    this.fireStore.getTask(this.myTask, this.idUrl)
+  filterInProcess() {
+    this.fireStore.getTask(this.myTask,  JSON.parse(localStorage.uid))
       .subscribe(tasks => {
         this.tasks = [];
         for (let key in tasks) {
           let task = tasks[key];
           task.id = key;
-          if (task.status === 'done') {
+          if (task.status === 'inProcess') {
+            this.tasks.push(task);
+          }
+        }
+      }, err => {
+        this.error = err.message;
+      });
+  }
+
+  public filterDone(): void {
+    this.fireStore.getTask(this.myTask, JSON.parse(localStorage.uid))
+      .subscribe(tasks => {
+        this.tasks = [];
+        for (let key in tasks) {
+          let task = tasks[key];
+          task.id = key;
+          if (task.status === 'completed') {
             this.tasks.push(task);
           }
         }

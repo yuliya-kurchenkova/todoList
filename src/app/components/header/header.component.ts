@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
       this.isSignIn = value;
     })
     this.isSignIn = !!this.localStorageService.get('uid');
+
   };
 
   public login(): void {
@@ -39,12 +40,13 @@ export class HeaderComponent implements OnInit {
   };
 
   public changeLanguage(): void {
-    this.language === 'en' ? this.language = 'ru' : this.language = 'en';
+    this.language = this.language === 'en' ?  'ru' : 'en';
     this.translate.use(this.language);
   };
 
   public logoutBtn(): void {
     this.fireAuth.logout();
+    this.isSignIn = false
     this.router.navigate(['/admin', 'login']);
   };
 }

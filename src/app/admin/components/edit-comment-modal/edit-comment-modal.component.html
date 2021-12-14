@@ -1,0 +1,13 @@
+<form class="example-form" [formGroup]="formEditComment">
+  <div mat-dialog-actions>
+    <h2 class="title">{{"titles.formEditComment" | translate }}</h2>
+    <button class="btn-close" mat-stroked-button mat-dialog-close (click)="close()">x</button>
+  </div>
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>{{"labels.title" | translate }}</mat-label>
+    <input matInput placeholder="{{ 'labels.title' | translate }}" formControlName="newComment" autocomplete="off"/>
+  </mat-form-field>
+  <div class="btn-ref">
+    <button mat-stroked-button color="accent" [disabled]="formEditComment.invalid" type="submit" (click)="editComment()">{{"buttons.refresh" | translate }}</button>
+  </div>
+</form>

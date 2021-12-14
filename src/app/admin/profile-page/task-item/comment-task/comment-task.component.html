@@ -1,0 +1,13 @@
+<div class="card-comment">
+  <div class="card-comment_title">{{comment.newComment}}
+    <div class="card-comment_date"> ( {{comment.dateAddComment}} ) </div>
+  </div>
+  <div class="todo-controls-box" appToolTipSingleton (click)="$event.stopPropagation()">
+    <div class="todo-control-button" appToolTip="Edit Todo" (click)="editComment()">
+      <i class="material-icons">edit</i>
+    </div>
+    <div class="todo-control-button is-danger" appToolTip="Delete Todo" (click)="deleteComment()">
+      <i class="material-icons">delete</i>
+    </div>
+  </div>
+</div>

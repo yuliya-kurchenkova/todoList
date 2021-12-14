@@ -1,0 +1,47 @@
+<form (ngSubmit)="submit()" class="example-form" [formGroup]="formProfile">
+  <div>
+    <div mat-dialog-actions class="wrapper-modal">
+      <div class="modal-title">{{"titles.formEditProfile" | translate}}</div>
+        <div>
+          <button class="btn-close" mat-stroked-button mat-dialog-close (click)="close()">x</button>
+        </div>
+      </div>
+    <div class="card-checkbox">
+      <mat-radio-group formControlName="gender" aria-labelledby="example-radio-group-label" class="example-radio-group">
+        <mat-radio-button class="example-radio-button" value="Female">{{"buttons.female" | translate}}</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="Male">{{"buttons.male" | translate}}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <mat-form-field class="example-form-field" appearance="fill">
+      <mat-label>{{"labels.name" | translate}}</mat-label>
+      <input matInput placeholder="" maxlength="35" ([ngModel])="userData.displayName" formControlName="displayName" autocomplete="off"/>
+    </mat-form-field>
+    <mat-form-field class="example-form-field color" appearance="fill">
+      <mat-label>{{"placeholders.email" | translate}}</mat-label>
+      <input matInput placeholder="" ([ngModel])="userData.email" readonly formControlName="email"/>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>{{"labels.phoneNumber" | translate}}</mat-label>
+      <input type="tel" matInput placeholder="+375 29-555-55-55" ([ngModel])="userData.phoneNumber" formControlName="phoneNumber" autocomplete="off">
+      <mat-icon matSuffix>mode_edit</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>{{"labels.address" | translate}}</mat-label>
+      <textarea matInput placeholder="{{'labels.address' | translate}}" maxlength="35" ([ngModel])="userData.address" formControlName="address" autocomplete="off"></textarea>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>{{"labels.about" | translate}}</mat-label>
+      <textarea matInput placeholder="{{'labels.about' | translate}}" maxlength="35" ([ngModel])="userData.about" formControlName="about" autocomplete="off"></textarea>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>{{"labels.birthday" | translate }}</mat-label>
+      <input matInput [matDatepicker]="picker" ([ngModel])="userData.birthday" formControlName="birthday" autocomplete="off"/>
+      <mat-datepicker-toggle matSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-stroked-button color="accent" type="submit">{{"buttons.save" | translate }}</button>
+  </div>
+</form>
+

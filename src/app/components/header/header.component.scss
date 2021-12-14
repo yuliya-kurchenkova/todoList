@@ -1,15 +1,32 @@
 button {
   margin-right: 20px;
+  background: #195969;
 }
 
 .ava {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   vertical-align: top;
   border-radius: 50%;
   cursor: pointer;
 }
 
+.nav-btn {
+  display: flex;
+  align-items: center;
+}
+
 .hidden {
   display: none;
+}
+
+i {
+  width: 20px;
+  height: 20px;
+  color: #195969;
+}
+
+span {
+  cursor: pointer;
+  color: white;
 }

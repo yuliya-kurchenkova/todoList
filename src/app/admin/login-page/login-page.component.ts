@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FirebaseService } from '../shared/services/firebase.service';
 import { regs } from '../../shared/constants/regs';
 import { LocalStorageService } from '../shared/services/local-storage.service';
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -29,7 +30,8 @@ export class LoginPageComponent implements OnInit {
     private route: ActivatedRoute,
     private translate: TranslateService,
     private fireAuth: FirebaseService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private toastrService: ToastrService
   ) {
     translate.setDefaultLang('en');
   }
@@ -44,7 +46,7 @@ export class LoginPageComponent implements OnInit {
       ]),
       password: new FormControl(null, [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(8)
       ])
     });
   };
@@ -58,9 +60,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   public submit(): void {
-    if (this.profileForm.invalid) {
-      return;
-    }
+    if (this.profileForm.invalid) return;
 
     this.submitted = true;
 
@@ -79,16 +79,20 @@ export class LoginPageComponent implements OnInit {
         this.submitted = false;
         this.isLoader = false;
         this.router.navigate(['/admin', 'profile'], {
-        queryParams: { id: this.userId }
-        });
+        queryParams: { id: this.userId }});
       })
       .catch(err => {
         this.fireAuth.changeIsSignedIn(false);
+        this.profileForm.reset();
         this.isLoader = false;
         this.err = err.message;
-        this.profileForm.reset();
+        this.showErrorMessage(this.err)
       });
   };
+
+  public showErrorMessage(error: any): void {
+    this.toastrService.error(`${error}`);
+  }
 
   public add(): void {
     this.router.navigate(['/admin', 'signup']);

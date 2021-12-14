@@ -4,37 +4,39 @@
     <div class="box">
       <mat-form-field>
         <mat-label>{{"placeholders.firstName" | translate}}</mat-label>
-        <input matInput type="text" #firstName name="name" class="input" placeholder="{{'placeholders.firstName' | translate}}" formControlName="firstName"/>
-        <mat-error class="validation" *ngIf="registrationForm.controls['firstName'].invalid && registrationForm.controls['firstName'].touched">{{"errors.firstName" | translate}}</mat-error>
+        <input matInput type="text" #firstName name="name" class="input" autocomplete="off" placeholder="{{'placeholders.firstName' | translate}}" formControlName="firstName"/>
+        <mat-error *ngIf="registrationForm.get('firstName')?.hasError('required')">{{"errors.firstNameRequired" | translate}}</mat-error>
+        <mat-error *ngIf="registrationForm.get('firstName')?.hasError('minlength')">{{"errors.firstNameLength" | translate}}</mat-error>
       </mat-form-field>
     </div>
     <div class="box">
       <mat-form-field>
         <mat-label>{{"placeholders.lastName" | translate}}</mat-label>
-        <input matInput type="text" #firstName name="name" class="input" placeholder="{{'placeholders.lastName' | translate}}" formControlName="lastName"/>
-        <mat-error class="validation" *ngIf="registrationForm.controls['lastName'].invalid && registrationForm.controls['lastName'].touched">{{"errors.lastName" | translate}}</mat-error>
+        <input matInput type="text" #firstName name="name" class="input" autocomplete="off" placeholder="{{'placeholders.lastName' | translate}}" formControlName="lastName"/>
+        <mat-error *ngIf="registrationForm.get('lastName')?.hasError('required')">{{"errors.lastNameRequired" | translate}}</mat-error>
+        <mat-error *ngIf="registrationForm.get('lastName')?.hasError('minlength')">{{"errors.lastNameLength" | translate}}</mat-error>
       </mat-form-field>
     </div>
     <div class="box" [ngClass]="{invalid: registrationForm.controls.email.touched && registrationForm.controls.password.invalid}">
       <mat-form-field>
         <mat-label>{{ "placeholders.email" | translate }}</mat-label>
-        <input matInput type="text" placeholder="{{ 'placeholders.email' | translate }}" formControlName="email">
-        <mat-error class="validation" *ngIf="email && email.invalid && email.touched">{{"errors.email" | translate}}</mat-error>
+        <input matInput type="text" placeholder="{{ 'placeholders.email' | translate }}" autocomplete="off" formControlName="email">
+        <mat-error *ngIf="registrationForm.get('email')?.hasError('required')">{{"errors.emailRequired" | translate }}</mat-error>
+        <mat-error *ngIf="registrationForm.get('email')?.hasError('pattern')">{{"errors.emailNotCorrect" | translate }}</mat-error>
       </mat-form-field>
     </div>
     <div class="box" [ngClass]="{invalid: registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid}">
-      <mat-form-field>
-        <mat-label>{{ "placeholders.password" | translate }}</mat-label>
-        <input matInput type="password" placeholder="{{'placeholders.password' | translate}}" formControlName="password">
-        <mat-error class="validation" *ngIf="password && password.invalid && password.touched">{{"errors.password" | translate}}</mat-error>
-      </mat-form-field>
+      <div class="item" data-title="The password contains at least *one character (! @ # $% ^ & *); *one Latin letter in lower case *one number;">
+         <mat-form-field class="password-message">
+            <mat-label>{{ "placeholders.password" | translate }}</mat-label>
+            <input matInput type="password" placeholder="{{'placeholders.password' | translate}}" autocomplete="off" formControlName="password">
+            <mat-error *ngIf="registrationForm.get('password')?.hasError('required')">{{"errors.passwordRequired" | translate}}</mat-error>
+            <mat-error *ngIf="registrationForm.get('password')?.hasError('pattern')">{{"errors.passwordMinLength" | translate}}</mat-error>
+         </mat-form-field>
+      </div>
     </div>
     <div class="box-around">
-      <button mat-raised-button color="accent"
-        class="btn"
-        type="submit"
-        [disabled]="registrationForm.invalid || submitted"
-      >{{"buttons.sign-up" | translate}}</button>
+      <button mat-raised-button color="accent" class="btn" type="submit" [disabled]="registrationForm.invalid">{{"buttons.sign-up" | translate}}</button>
     </div>
   </form>
 </div>
@@ -42,4 +44,5 @@
 <div class="loader" *ngIf="isLoader">
   <mat-spinner color="accent"></mat-spinner>
 </div>
-<router-outlet></router-outlet>
+
+

@@ -1,14 +1,17 @@
 export interface User {
   email: string;
   password: string;
-  returnSecureToken?: boolean;
-  idToken?: string;
-  userName?: string;
+  id?: string;
   uid?: string;
   firstName?: string;
   lastName?: string;
   displayName?: string;
   localId?: string;
+  birthday?: string;
+  gender?: string;
+  address?: string;
+  about?: string;
+  phoneNumber?: string;
 }
 
 export interface FbAuthResponse {
@@ -29,10 +32,25 @@ export interface Task {
   description: string;
   date: string;
   status: string;
+  dateAdd: string;
+  newComment?: string;
+  dateAddComment?: string;
 }
 
 export interface UserData {
+  id?: any;
   uid?: string;
   email: string;
   displayName: string;
+  birthday?: string;
+  gender?: string;
+  address?: string;
+  about?: string;
+  phoneNumber?: string;
+}
+
+export interface Comment {
+  id?: string;
+  newComment: string;
+  dateAddComment: string;
 }

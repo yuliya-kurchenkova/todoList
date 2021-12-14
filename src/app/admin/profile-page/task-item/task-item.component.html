@@ -1,0 +1,64 @@
+<div class="card-container">
+  <div class="card-task">
+    <div class="card-wrapper">
+      <div class="card-title">
+        <div class="card-task_title">{{task.title}}</div>
+        <div>
+          <button class="btn-options" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </div>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editTask()">
+            <i class="material-icons">create</i>
+            <span>{{"buttons.editTask" | translate }}</span>
+          </button>
+          <button mat-menu-item (click)="delTask()">
+            <i class="material-icons">delete</i>
+            <span>{{"buttons.deleteTask" | translate }}</span>
+          </button>
+          <button mat-menu-item *ngIf="!showComments" (click)="showComments = true">
+            <i class="material-icons">comment</i>
+            <span>{{"buttons.showComments" | translate }}</span>
+          </button>
+          <button mat-menu-item *ngIf="showComments" (click)="showComments = false">
+            <i class="material-icons">comment</i>
+            <span>{{"buttons.closeComments" | translate }}</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="card-description">
+        <div class="card-task_text"><span>{{task.description}}</span></div>
+        <div class="status-text">{{task.status}}</div>
+      </div>
+      <div class="card-task_text"><span> {{"text.deadline" | translate }} </span>{{task.date | date: "dd.MM.yy"}}</div>
+    </div>
+    <div *ngIf="showComments">
+      <p class="text-noComment" *ngIf="!comments.length; else showCommentsTitle">{{"text.noComments" | translate }}</p>
+    </div>
+    <ng-template #showCommentsTitle class="card-task_box">
+      <div>
+        <app-comment-task *ngFor="let comment of comments" [comment]="comment" (onEdit)="openCommentDialogEdit($event)" (onDelete)="removeComment($event)"></app-comment-task>
+      </div>
+    </ng-template>
+    <div>
+      <div class="box-comment" [formGroup]="formAddComment">
+        <div class="comment-form">
+          <div class="comment-input">
+            <mat-form-field class="comment-form-field" appearance="fill">
+              <mat-label>{{'labels.commentAdd' | translate }}</mat-label>
+              <input matInput type="text" formControlName="newComment" autocomplete="off">
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-stroked-button class="btn-add" color="accent" [disabled]="formAddComment.invalid" (click)="addComment(task)">
+              <span class="material-icons">add_task</span>
+            </button>
+          </div>
+        </div>
+        <div class="card-task_date">{{task.dateAdd}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+

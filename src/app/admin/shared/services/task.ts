@@ -3,5 +3,13 @@ export class MyTask {
   title!: string;
   description!: string;
   date!: string;
-  status: string = 'all';
+  status: string = 'new';
+  newComment?: string;
+  dateAdd: any;
+}
+
+export class MyComment {
+  newComment!: string;
+  id?: string;
+  dateAddComment: string | any;
 }
